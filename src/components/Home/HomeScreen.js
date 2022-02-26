@@ -18,9 +18,7 @@ export const HomeScreen = () => {
           <h1 className="titulo">HORUS+</h1>
       </div>
           <div className="col-xs-12 col-sm-12  col-md-12 col-lg-2">
-          
-            
-                <div className="card text-white bg-secondary " onClick={handleStation}>
+       <div className="card text-white bg-secondary " onClick={handleStation}>
                     <div className="card-header text-center ">
                       <div style={{fontSize:"3em", color:'#fed463'}}>
                          <FontAwesomeIcon   icon={faFolder}/>

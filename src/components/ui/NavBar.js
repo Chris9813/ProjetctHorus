@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
-
+import "../css/NavBar.css"
+import logoHorus from "./img/logoHorus.png"
+import iconoUsuario from "./img/iconoUsuario.png"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faMagnifyingGlass}from '@fortawesome/free-solid-svg-icons'
+import { Button } from "@material-ui/core";
 export const NavBar = () => {
   const dispatch = useDispatch();
 
@@ -12,39 +17,47 @@ export const NavBar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/home">
-            Home
+      <nav className="navbar navbar-expand-lg navbar-light ">
+        <div className="container-fluid ">
+
+          <div className="logoHorus navbar-brand">
+          <Link className="logo " to="/home">
+            <img src={logoHorus} className="logo img-fluid mx-auto d-block"/>
           </Link>
+          </div>
+      
 
-          <div className="d-flex justify-content-end btn-collapse">
-            <div className="navbar-collapse" id="navbarScroll">
-              {/*
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
+         
+          <div className="search-controller">
+            <button className="search-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+         
+          <input
+                className="prompt"
+                type="text"
+                placeholder="Busqueda"
                 aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-                */}
+                typeIcon="search"
+          />
+          </div>
+        
+          <div className=" btn-collapse">
+            <div className="navbar-collapse" id="navbarScroll">
 
-              <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+              <ul className=" navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+              
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle"
+                    class="nav-link dropdown"
                     href="#"
                     id="offcanvasNavbarDropdown"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    style={{color:'white'}}
                   >
-                    Jesse White
+                     Jesse 
                   </a>
                   <ul
                     class="dropdown-menu"
@@ -66,13 +79,19 @@ export const NavBar = () => {
                         <a class="dropdown-item" href="#" onClick={handleClick}>
                           Cerrar sesion
                         </a>
+                        
                       </li>
                     </li>
                   </ul>
                 </li>
+              
               </ul>
+              <div className="d-flex iconoUsuario">
+                  <img src={iconoUsuario} className="icono "/>
+                  </div>
             </div>
           </div>
+         
         </div>
       </nav>
     </>
