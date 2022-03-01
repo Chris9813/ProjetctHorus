@@ -11,8 +11,13 @@ import {
   ModalFooter,
   Button,
 } from "reactstrap";
-import { eventAddNew, setActive } from "../../actions/events";
-import { useForm } from "../../hooks/useForm";
+import {
+  deleteActive,
+  eventAddNew,
+  handleDetele,
+  setActive,
+  setActiveCopy,
+} from "../../actions/events";
 
 const directory = {
   name: "root",
@@ -40,7 +45,9 @@ const directory = {
 
 export const PanelVistaArbol = () => {
   const dispatch = useDispatch();
-  const { activeFile, files } = useSelector((state) => state.events);
+  const { activeFile, files, activeFileCopy } = useSelector(
+    (state) => state.events
+  );
 
   const [data, setData] = useState(directory);
   const [cursor, setCursor] = useState(false);
@@ -76,23 +83,19 @@ export const PanelVistaArbol = () => {
     setCursor(node);
   };
 
-  var copiaObjeto;
-  const obj = {};
-
-  function handleClick(e, d) {
-    const nameItem = d.target.innerHTML;
-    const nojoHijos = d.foo.children;
-    copiaObjeto = {
+  function handleClick(e, datos) {
+    const nameItem = datos.target.innerHTML;
+    const nojoHijos = datos.foo.children;
+    const copiaObjeto = {
       name: nameItem,
       children: nojoHijos,
     };
+    dispatch(setActiveCopy(copiaObjeto));
+  }
 
-    //console.log(estado)
-
-    findObject(data, "name", "loading parent", copiaObjeto);
-    // console.log(data);
-    // valorCopiar=nameItem;
-    //.__reactEventHandlers$f6wpoyzd59
+  function clickPegar(e, datos) {
+    const nameItem = datos.target.innerHTML;
+    dispatch(eventAddNew(activeFileCopy, nameItem));
   }
 
   const handleCrear = (e, datos) => {
@@ -100,87 +103,22 @@ export const PanelVistaArbol = () => {
     dispatch(setActive(datos.target.innerHTML));
   };
 
-  const crearCarpeta = (datos) => {
+  const crearCarpeta = () => {
     dispatch(eventAddNew(formValues, activeFile));
     setAbierto(false);
     setformValues(initiEvent);
+    dispatch(deleteActive());
   };
 
-  //console.log(estado)
-
-  function clickPegar(e, datos) {
+  const handleDelete = (e, datos) => {
     const nameItem = datos.target.innerHTML;
-    console.log(copiaObjeto);
-    findObject(data, "name", nameItem, copiaObjeto);
-  }
-
-  const findObject = (obj = {}, key, value, copiaObjeto = {}) => {
-    const recursiveSearch = (obj = {}) => {
-      if (!obj || typeof obj !== "object") {
-        return;
-      }
-      if (obj[key] === value) {
-        if (obj["children"]) {
-          obj["children"].push(copiaObjeto);
-        } else {
-          obj["children"] = [];
-          obj["children"].push(copiaObjeto);
-        }
-      }
-      Object.keys(obj).forEach(function (k) {
-        recursiveSearch(obj[k]);
-      });
-    };
-    recursiveSearch(obj);
-    console.log(data);
-  };
-
-  const crear = (obj = {}, key, value, carpeta) => {
-    //console.log(carpeta)
-    const recursiveSearch = (obj = {}) => {
-      if (!obj || typeof obj !== "object") {
-        return;
-      }
-      if (obj[key] === value) {
-        obj["children"].push({ name: carpeta });
-      }
-      Object.keys(obj).forEach(function (k) {
-        recursiveSearch(obj[k]);
-      });
-    };
-    recursiveSearch(obj);
-    console.log(data);
-  };
-
-  const copy = (e) => {
-    console.log(cursor);
-  };
-
-  const menuConfig = {
-    Copiar: (e) => copy(e),
-    "Crear carpeta": () => console.log("Crear carpeta"),
-    "Añadir a favoritos": () => console.log("Crear carpeta"),
-    Propiedades: () => console.log("Crear carpeta"),
-  };
-  const decorators = {
-    Toggle: (props) => {
-      return (
-        <div style={props.style}>
-          <svg height={props.height} width={props.width}>
-            // Vector Toggle Here
-          </svg>
-        </div>
-      );
-    },
+    dispatch(handleDetele(nameItem));
   };
 
   return (
     <div>
-      {/* NOTICE: id must be unique between EVERY <ContextMenuTrigger> and <ContextMenu> pair */}
-      {/* NOTICE: inside the pair, <ContextMenuTrigger> and <ContextMenu> must have the same id */}
-
       <ContextMenuTrigger id="same_unique_identifier">
-        <Treebeard className="toggle" data={files} onToggle={onToggle} />
+        <Treebeard className="toggle" data={data} onToggle={onToggle} />
       </ContextMenuTrigger>
 
       <ContextMenu id="same_unique_identifier">
@@ -191,18 +129,25 @@ export const PanelVistaArbol = () => {
         >
           Copiar
         </MenuItem>
+
+        <MenuItem className="pegar" data={{ foo: "bar" }} onClick={clickPegar}>
+          Pegar
+        </MenuItem>
+
         <MenuItem data={{ foo: "bar" }} onClick={handleCrear}>
           Crear carpeta
         </MenuItem>
+
         <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
           Añair a favoritos
         </MenuItem>
+
         <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
           Propiedades
         </MenuItem>
 
-        <MenuItem className="pegar" data={{ foo: "bar" }} onClick={clickPegar}>
-          Pegar
+        <MenuItem data={{ foo: "bar" }} onClick={handleDelete}>
+          Eliminar
         </MenuItem>
       </ContextMenu>
 
@@ -228,19 +173,3 @@ export const PanelVistaArbol = () => {
     </div>
   );
 };
-
-{
-  /*
-        <div className="App">
-      <div className="box" onContextMenu={useCM(menuConfig)}>
-        <code>
-          <Treebeard data={data} onToggle={onToggle} />
-        </code>
-      </div>
-      {contextMenu}
-    </div>
-
-<Treebeard data={data} onToggle={onToggle} />;
-
-  */
-}

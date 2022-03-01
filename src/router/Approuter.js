@@ -28,7 +28,9 @@ export const Approuter = () => {
           path="/login"
           element={
             <PublicRoute>
-              <LoginScreen />
+              <div className="container-fluid-login height-bg d-flex justify-content-center align-items-center">
+                <LoginScreen />
+              </div>
             </PublicRoute>
           }
         />

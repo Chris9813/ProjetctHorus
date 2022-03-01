@@ -1,19 +1,125 @@
+/* Login screen  */
+.container-fluid-login {
+  background-image: url("./img/fondo-login.jpeg");
+  background-size: 100%;
+  background-repeat: repeat-y;
+}
+.height-bg {
+  height: 100vh;
+}
+.bg-opacity {
+  background-color: rgb(253, 253, 253);
+}
+.title {
+  color: rgb(0, 28, 45);
+  font-size: 3rem;
+  font-weight: 700;
+}
+.radius {
+  border-radius: 2rem;
+  opacity: 90%;
+}
+.h-w-block {
+  height: 22rem;
+  width: 25rem;
+}
+.width-form {
+  width: 20rem;
+}
+.border-form {
+  border-radius: 0;
+}
+.color-span {
+  background-color: rgb(112, 115, 122);
+}
+.color-input {
+  background-color: rgb(208, 212, 223);
+}
+.color-input:focus {
+  box-shadow: none;
+  border-color: rgb(208, 212, 223);
+}
+.h-w-input {
+  height: 3rem;
+}
+.check-label {
+  color: rgb(0, 28, 45);
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.checkbox:checked {
+  background-color: rgb(0, 28, 45);
+}
+.btn {
+  color: rgb(0, 28, 45);
+  font-size: 1rem;
+  font-weight: 700;
+}
+.btn:focus {
+  box-shadow: none;
+}
+
+/* Login screen */
+
+/* Home screen */
+html,
+body,
+header,
+#intro {
+  height: 100%;
+  background-image: radial-gradient(#f9f9f9, #9fa0a3);
+}
+.minh-100 {
+  height: 70vh;
+  margin-top: -3rem;
+}
+
+.titulo {
+  color: #ee4a23;
+  margin-top: 13%;
+  font-size: 75px;
+}
+.card {
+  border-radius: 5%;
+  height: 130px;
+  width: 120px;
+  cursor: pointer;
+}
+
+.container .card:hover {
+  transform: scale(1.3);
+  box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0;
+  background-color: #ffffff;
+}
+
+/* Home screen */
+
+/* Nav Bar Home Screen */
+
 .btn-collapse {
   margin-right: 2rem;
 }
 
 .dropdown-item {
   display: block;
-  min-width: 1rem;
   padding: 0.25rem 1rem;
   clear: both;
   font-weight: 400;
+  font-size: small;
   color: #212529;
-  text-align: inherit;
+  text-align: center;
   text-decoration: none;
   white-space: normal;
   background-color: transparent;
   border: 0;
+  line-height: 90%;
+  color: #5b5b5d;
 }
 
 .dropdown-menu {
@@ -27,27 +133,81 @@
   color: #212529;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color: #ececed;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  border-radius: 0.6rem;
 }
 
-.sidebar {
-  width: 250px;
-  height: 100vh;
-  position: fixed;
-  background-color: #21252b;
-  transition: 0.4s;
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color: #1e2125;
+  background-color: #ececed !important;
 }
+
+.nav-link:focus,
+.nav-link:hover {
+  color: #5b5b5d;
+}
+
+.navbar-nav .nav-link {
+  height: 5rem;
+}
+
+.navbar-nav .dropdown-menu {
+  margin-right: 10rem;
+  margin-left: -3.5rem;
+  width: 14rem;
+  position: absolute !important;
+}
+
+.btn-nav-home {
+  color: #5b5b5d;
+}
+
+.btn-text-nav-home {
+  text-align: end;
+  margin-right: 1rem;
+  margin-top: 0.8rem;
+  line-height: 100%;
+  letter-spacing: 0.05rem;
+}
+
+.v-line {
+  border-left: 1px solid #5b5b5d;
+  margin-top: 0.5rem;
+  height: 2.5rem;
+  position: absolute;
+}
+
+.dropdown-divider {
+  border: 1px solid #aa9c9c8f;
+  color: #212529;
+}
+
+.divider {
+  background-color: #5b5b5d;
+  margin-inline: 0.5rem;
+}
+
+/* Nav Bar Home Screen */
+
 
 .my-container {
   margin-left: 15rem;
 }
 
-/* for navbar */
+.dropdown-toggle::after {
+  color: transparent;
+}
 
-/* for main section */
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color: #1e2125;
+  background-color: rgb(250, 245, 250);
+}
+
+/* for navbar */
 
 nav.react-contextmenu {
   position: fixed;
@@ -84,15 +244,259 @@ nav.react-contextmenu {
   outline: none;
 }
 
-.MuiTableCell-root {
-  display: table-cell !important;
-  padding: 16px !important;
-  font-size: 0.875rem !important;
-  text-align: left;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
-  font-weight: 400 !important;
-  line-height: 1.43 !important;
-  border-bottom: 1px solid rgba(224, 224, 224, 1) !important;
-  letter-spacing: 0.01071em !important;
-  vertical-align: inherit !important;
+/*NavBar GridView */
+.p-grid {
+  color: white;
 }
+.name-navbar-grid {
+  margin-top: 2rem;
+  margin-inline: 0.5rem;
+}
+.navbar-grid {
+  background-color: #ee4a23;
+  height: 50px;
+}
+.logo {
+  max-width: 18%;
+}
+.logoHorus {
+  margin-left: -10%;
+}
+.navbar .search-controller {
+  color: rgb(124, 122, 122);
+}
+
+.navbar .search-controller .search-btn {
+  position: absolute;
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+  color: rgb(124, 122, 122);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.navbar .search-controller input[type="text"] {
+  background-color: white;
+  border: 0;
+  outline: none;
+  height: 25px;
+  width: 250px;
+  border-radius: 5px;
+  display: block;
+  margin: 20px 0;
+  padding: 0 40px;
+}
+.searchIcon {
+  background-color: white;
+  height: 30px;
+  width: 50px;
+  display: grid;
+  place-items: center;
+}
+.nombre {
+  color: white;
+}
+.icono {
+  max-width: 40px;
+  margin-top: 0.8rem;
+}
+
+.dropdown {
+  margin-left: 5%;
+}
+
+/*NavBar  GridView  */
+
+/*ToolBar */
+.toolBarGridView {
+  position: relative;
+  background: #e0e1e1;
+  width: 81.8vw;
+  height: 49px;
+  box-sizing: border-box;
+  padding: 0;
+  transition: width 0.2s ease-in;
+  margin-top: -24px;
+  margin-inline: -1rem;
+}
+
+.search-controller .search-btn {
+  position: absolute;
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+  color: #9c9c9f;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.search-controller a {
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  height: 25px;
+  width: 100px;
+  border-radius: 5px;
+  display: block;
+  margin: 20px 0;
+  padding: 5px 40px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.divider-tolbar {
+  margin-left: 6.5rem;
+  width: 2px;
+  height: 30px;
+  border-radius: 1px;
+  background: #9c9c9f;
+  margin-top: -20px;
+  transform: translateY(-35px);
+}
+ .toolBarGridView.active{
+ width: 20px;
+ background-color: yellow;
+}
+/*Toolbar */
+
+/*Sidebar */
+
+.side-menu{
+  position: fixed;
+  background: transparent;
+  width: 250px;
+  height: 100%;
+  box-sizing: border-box;
+  transition: width .2s ease-in;
+  z-index: 1;
+}
+.side-menu.inactive{
+  background: transparent;
+  width: 80px;
+}
+
+aside {
+  height: 100vh;
+  background-color: rgb(239, 238, 237);
+  transition: width .2s ease-in;
+  width: 300px;
+}
+
+aside.inactive{
+  width: 50px;
+  
+}
+h1 span {
+  font-weight: 300;
+}
+.h1-sidebar {
+  font-size: 2rem;
+  font-weight: 800;
+  color: dimgray;
+}
+h2 {
+  color: dimgray;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  font-weight: 400;
+}
+.icon {
+  font-size: 2rem;
+  color: dimgray;
+}
+.side-menu.inactive .mt-1{
+  opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.side-menu.inactive .h1-sidebar {
+  opacity: 0;
+  transition: .2s ease-in;
+}
+
+.side-menu.inactive .divizor{
+ 
+    width: 6rem;
+   
+}
+.divizor{
+  width: 17rem;
+}
+/*Sidebar */
+
+/*gridview */
+
+.gridView-general {
+  margin-right: -1.5rem;
+  margin-left: -14px;
+}
+
+.icons-gridView {
+  border-block: 1px solid #157ca7;
+  border-inline-start: 1px solid #157ca7;
+  border-inline-end: 1px solid #157ca7;
+  cursor: pointer;
+  padding: 4px;
+  padding-inline: 7px;
+}
+
+.fa-angle-right:before {
+  content: "\f105";
+  color: #157ca7;
+}
+
+.fa-angle-left:before {
+  content: "\f104";
+  color: #157ca7;
+}
+
+.fa-arrow-turn-up:before,
+.fa-level-up:before {
+  content: "\f148";
+  color: #157ca7;
+}
+
+.fa-folder:before {
+  content: "\f07b";
+  color: #ffd563;
+}
+
+.fa-file-alt:before,
+.fa-file-lines:before,
+.fa-file-text:before {
+  content: "\f15c";
+  color: grey;
+}
+
+.MuiToolbar-regular {
+  min-height: 16px !important;
+}
+
+.icon-group-gridview {
+  margin-inline: 1.5rem;
+  margin-bottom: 0rem;
+  padding-bottom: 0rem;
+}
+.Component-horizontalScrollContainer-12 {
+  margin-inline: 1rem;
+}
+
+.transform {
+  transform: rotate(270deg);
+  padding: 6px;
+  margin-left: 1rem;
+}
+
+.MuiTable-root {
+  width: 100%;
+  display: table;
+  border-spacing: 0;
+  margin-inline: 0rem;
+  border-collapse: collapse;
+}
+.MuiTableCell-head {
+  color: #157ca7 !important;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+/*gridview */

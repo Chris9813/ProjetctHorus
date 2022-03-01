@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import MaterialTable, { MTableToolbar } from "material-table";
 
+import MaterialTable, { MTableToolbar } from "material-table";
 import { directory } from "../../helpers/directory";
 
 export const GridView = () => {
   const [data, setData] = useState(directory.children);
 
   const iconFin = (rowData) => {
-    console.log(rowData.extension);
-
     switch (rowData.extension) {
       case "folder":
         return <i class="fa-solid fa-folder"></i>;
@@ -27,10 +25,9 @@ export const GridView = () => {
       title: "",
       field: "extension",
       render: (rowData) => iconFin(rowData),
-      align: "right",
-      filtering: false,
+      align: "center",
     },
-    { title: "Nombre", field: "nombre" },
+    { title: "Nombre", field: "nombre", align: "left", width: "" },
     {
       title: "Fecha de modificación",
       field: "fecha_modificacion",
@@ -66,18 +63,15 @@ export const GridView = () => {
     setData(directory.children);
   };
 
-  let typeIcon = "search";
-
-  console.log(typeIcon);
-
   return (
     <>
       <MaterialTable
-        title="DataTable"
+        title=""
         columns={columns}
         data={data}
         //parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
         options={{
+          search: false,
           selection: true,
         }}
         onRowClick={(row, rows) => handleClick(row, rows)}
@@ -85,15 +79,16 @@ export const GridView = () => {
           Toolbar: (props) => (
             <div>
               <MTableToolbar {...props} />
-              <div style={{ padding: "0px 10px" }}>
-                <button
+              <div className="icon-group-gridview">
+                <i
                   onClick={handlereturn}
-                  label="Chip 1"
-                  className="btn btn-danger m-3"
-                  style={{ marginRight: 5 }}
-                >
-                  Atras
-                </button>
+                  class="fa-solid fa-angle-left mx-1 icons-gridView"
+                ></i>
+                <i class="fa-solid fa-angle-right icons-gridView"></i>
+                <i
+                  onClick={handlereturn}
+                  class="fa-solid fa-arrow-turn-up icons-gridView transform"
+                ></i>
               </div>
             </div>
           ),

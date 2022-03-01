@@ -6,6 +6,7 @@ export const types = {
   gestionSetActive: "[gestion] Set active",
   gestionLogout: "[gestion] Start clear logout",
   gestionClearActive: "[gestion] Clear active gestion",
+  gestionSetActiveCopy: "[gestion] Set active copy",
 
   gestionStartAddNew: "[gestion] Start add new",
   gestionAddNew: "[gestion] Add new",

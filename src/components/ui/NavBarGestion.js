@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../actions/auth";
+import logoHorus from "../../img/logoHorus.png";
+import iconoUsuario from "../../img/iconoUsuario.png";
 
-export const NavBar = () => {
+export const NavBarGestion = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -12,38 +14,58 @@ export const NavBar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container-fluid">
-          <div className="navbar-brand"></div>
-          <div className="d-flex justify-content-end btn-collapse">
+      <nav className="navbar navbar-grid navbar-expand-lg navbar-light ">
+        <div className="container-fluid ">
+          <div className="logoHorus navbar-brand">
+            <Link className="logo " to="/home">
+              <img src={logoHorus} className="logo img-fluid mx-auto d-block" />
+            </Link>
+          </div>
+
+          <div className="search-controller">
+            <button className="search-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <input
+              className="prompt"
+              type="text"
+              placeholder="Busqueda"
+              aria-label="Search"
+              typeIcon="search"
+            />
+          </div>
+
+          <div className=" btn-collapse">
             <div className="navbar-collapse" id="navbarScroll">
-              <ul className="navbar-nav me-auto my-2 my-lg-0">
+              <ul className=" navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                 <li class="nav-item dropdown">
                   <a
-                    class="btn-nav-home nav-link dropdown-toggle"
+                    class="nav-link name-navBar-Grid dropdown"
                     href="#"
                     id="offcanvasNavbarDropdown"
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
+                    style={{ color: "white" }}
                   >
                     <div className="d-flex justify-content-end">
-                      <div className="btn-text-nav-home">
-                        <b className="btn-text-up">Jesse White</b>
+                      <div
+                        className="btn-text-nav-home"
+                        style={{ marginTop: "1.3em" }}
+                      >
+                        Jesse
                         <br />
-                        <div style={{ fontSize: "0.9rem" }}>
-                          jesse@horus.com
-                        </div>
                       </div>
                       <div>
-                        <div class="v-line"></div>
-                        <i class="fa-regular fa-circle-user fa-4x mx-3"></i>
+                        <img src={iconoUsuario} className="icono " />
                       </div>
                     </div>
                   </a>
                   <ul
                     class="dropdown-menu"
                     aria-labelledby="offcanvasNavbarDropdown"
+                    style={{ marginInline: "-8rem", marginTop: "-0.8rem" }}
                   >
                     <li>
                       <div class="dropdown-item mt-1" href="#">
@@ -64,7 +86,6 @@ export const NavBar = () => {
                         <li className="divider">
                           <hr class="dropdown-divider mt-0" />
                         </li>
-
                         <a class="dropdown-item" href="#" onClick={handleClick}>
                           <i class="fa-solid fa-arrow-right-from-bracket fa-1x mx-2"></i>
                           <b>SALIDA</b>

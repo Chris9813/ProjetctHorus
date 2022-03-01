@@ -35,3 +35,17 @@ export const setActive = (event) => ({
   type: types.gestionSetActive,
   payload: event,
 });
+
+export const deleteActive = () => ({
+  type: types.gestionClearActive,
+});
+
+export const setActiveCopy = (event) => ({
+  type: types.gestionSetActiveCopy,
+  payload: event,
+});
+
+export const handleDetele = (event) => ({
+  type: types.gestionDelated,
+  payload: event,
+});

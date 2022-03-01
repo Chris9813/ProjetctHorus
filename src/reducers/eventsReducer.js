@@ -1,3 +1,4 @@
+import { findObject, deleteObject } from "../helpers/findObject";
 import { types } from "../types/types";
 
 const directory = {
@@ -26,8 +27,6 @@ const directory = {
 
 const initialState = {
   files: directory.children,
-  activeFile: "",
-  nodo: "",
 };
 
 export const eventsReducer = (state = initialState, action) => {
@@ -38,26 +37,18 @@ export const eventsReducer = (state = initialState, action) => {
         activeFile: action.payload,
       };
 
-    case types.gestionAddNew:
-      const findObject = (obj = {}, key, value, copiaObjeto = {}) => {
-        const recursiveSearch = (obj = {}) => {
-          if (!obj || typeof obj !== "object") {
-            return;
-          }
-          if (obj[key] === value) {
-            if (obj["children"]) {
-              obj["children"].push(copiaObjeto);
-            } else {
-              obj["children"] = [];
-              obj["children"].push(copiaObjeto);
-            }
-          }
-          Object.keys(obj).forEach(function (k) {
-            recursiveSearch(obj[k]);
-          });
-        };
-        recursiveSearch(obj);
+    case types.gestionSetActiveCopy:
+      return {
+        ...state,
+        activeFileCopy: action.payload,
       };
+
+    case types.gestionClearActive:
+      return {
+        ...initialState,
+      };
+
+    case types.gestionAddNew:
       findObject(
         state.files,
         "name",
@@ -68,6 +59,12 @@ export const eventsReducer = (state = initialState, action) => {
         ...state,
       };
 
+    case types.gestionDelated:
+      deleteObject(state.files, "name", action.payload);
+      console.log(state.files);
+      return {
+        ...state,
+      };
     default:
       return state;
   }
