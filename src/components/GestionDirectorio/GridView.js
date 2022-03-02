@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import MaterialTable, { MTableToolbar } from "material-table";
 import { directory } from "../../helpers/directory";
 
@@ -10,32 +10,65 @@ export const GridView = () => {
   const iconFin = (rowData) => {
     switch (rowData.extension) {
       case "folder":
-        return <i class="fa-solid fa-folder"></i>;
+        return (
+          <div className="name-gridview">
+            <div className="d-flex margin-grid">
+              <i class="fa-solid fa-folder fa-1x"></i>
+              <div className="text-white">...</div>
+              <p className="textfolder">{rowData.nombre}</p>
+            </div>
+          </div>
+        );
 
       case "txt":
-        return <i class="fa-solid fa-file-lines"></i>;
+        return (
+          <div className="d-flex name-gridview">
+            <i class="fa-solid fa-file-lines"></i>
+            <div className="text-white">...</div>
+            <p className="textfolder">{rowData.nombre}</p>
+          </div>
+        );
 
       default:
-        return <i class="fa-solid fa-file-zipper"></i>;
+        return (
+          <div className="d-flex name-gridview">
+            <i class="d-flex fa-solid fa-file-zipper"></i>
+            <div className="text-white">...</div>
+            <p className="textfolder">{rowData.nombre}</p>
+          </div>
+        );
     }
   };
-
-  const [columns, setColumns] = useState([
-    {
+  {
+    /*
       title: "",
       field: "extension",
       render: (rowData) => iconFin(rowData),
       align: "center",
-    },
-    { title: "Nombre", field: "nombre", align: "left", width: "" },
+      */
+  }
+  const [columns, setColumns] = useState([
     {
-      title: "Fecha de modificación",
-      field: "fecha_modificacion",
+      title: "Nombre",
+      field: "nombre",
+      render: (rowData) => iconFin(rowData),
+      width: "",
+      align: "end",
     },
-    { title: "Modificado por", field: "modificado_por" },
+    {
+      title: "Tiempo de modificado",
+      field: "fecha_modificacion",
+      align: "center",
+    },
+    { title: "Tipo", field: "modificado_por", align: "center" },
     {
       title: "Tamaño",
       field: "tamaño",
+      align: "center",
+    },
+    {
+      title: "Propietario",
+      field: "propietario",
     },
   ]);
 
@@ -65,35 +98,53 @@ export const GridView = () => {
 
   return (
     <>
-      <MaterialTable
-        title=""
-        columns={columns}
-        data={data}
-        //parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
-        options={{
-          search: false,
-          selection: true,
-        }}
-        onRowClick={(row, rows) => handleClick(row, rows)}
-        components={{
-          Toolbar: (props) => (
-            <div>
-              <MTableToolbar {...props} />
-              <div className="icon-group-gridview">
-                <i
-                  onClick={handlereturn}
-                  class="fa-solid fa-angle-left mx-1 icons-gridView"
-                ></i>
-                <i class="fa-solid fa-angle-right icons-gridView"></i>
-                <i
-                  onClick={handlereturn}
-                  class="fa-solid fa-arrow-turn-up icons-gridView transform"
-                ></i>
+      <ContextMenuTrigger id="same_unique_identifier">
+        <MaterialTable
+          title=""
+          columns={columns}
+          data={data}
+          //parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
+          options={{
+            search: false,
+            selection: true,
+            tableLayout: "auto",
+          }}
+          onRowClick={(row, rows) => handleClick(row, rows)}
+          components={{
+            Toolbar: (props) => (
+              <div>
+                <MTableToolbar {...props} />
+                <div className="icon-group-gridview">
+                  <i
+                    onClick={handlereturn}
+                    class="fa-solid fa-angle-left mx-1 icons-gridView"
+                  ></i>
+                  <i class="fa-solid fa-angle-right icons-gridView"></i>
+                  <i
+                    onClick={handlereturn}
+                    class="fa-solid fa-arrow-turn-up icons-gridView transform"
+                  ></i>
+                </div>
               </div>
-            </div>
-          ),
-        }}
-      />
+            ),
+          }}
+        />
+      </ContextMenuTrigger>
+      <ContextMenu id="same_unique_identifier">
+        <MenuItem data={{ foo: "cursor" }}>Copiar</MenuItem>
+
+        <MenuItem className="pegar" data={{ foo: "bar" }}>
+          Pegar
+        </MenuItem>
+
+        <MenuItem data={{ foo: "bar" }}>Crear carpeta</MenuItem>
+
+        <MenuItem data={{ foo: "bar" }}>Añair a favoritos</MenuItem>
+
+        <MenuItem data={{ foo: "bar" }}>Propiedades</MenuItem>
+
+        <MenuItem data={{ foo: "bar" }}>Eliminar</MenuItem>
+      </ContextMenu>
     </>
   );
 };

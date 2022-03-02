@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import logoHorus from "./logoHorus.png";
 import { NavBarGestion } from "../ui/NavBarGestion";
 
-export const GestionDirectorioScreen = (inactive) => {
+export const GestionDirectorioScreen = () => {
   return (
     <>
       <NavBarGestion />

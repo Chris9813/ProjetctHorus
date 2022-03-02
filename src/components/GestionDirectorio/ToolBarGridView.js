@@ -1,16 +1,8 @@
-import React,{useState} from "react";
+import React from "react";
 
-export const ToolBarGridView = (props) => {
-  
-  const{onClick}=props
-  const [expand, setExpand]= useState(false);
+export const ToolBarGridView = () => {
   return (
-    
-  <li onClick={props.onClick} >
-    <div onClick={()=>{setExpand(!expand); console.log(expand)}
-      
-      
-      } className="toolBarGridView">
+    <div className="toolBarGridView">
       <div className="container">
         <div className="row align-items-center">
           <div className="col-xs-12 col-sm-12  col-md-12 col-lg-7">
@@ -54,7 +46,6 @@ export const ToolBarGridView = (props) => {
                   <div className="divider-tolbar"></div>
                 </div>
               </div>
-
               <div className="col-xs-12 col-sm-12  col-md-12 col-lg-2">
                 <div className="search-controller">
                   <button className="search-btn">
@@ -74,102 +65,10 @@ export const ToolBarGridView = (props) => {
                   <div className="divider-tolbar"></div>
                 </div>
               </div>
-
-              <div className="col-xs-12 col-sm-12  col-md-12 col-lg-2">
-                <div className="search-controller">
-                  <button className="search-btn">
-                    <i class="fa-solid fa-arrow-up-long"></i>
-                  </button>
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="offcanvasNavbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ color: "#9c9c9f" }}
-                  >
-                    XXXX
-                  </a>
-                  <div className="divider-tolbar"></div>
-                </div>
-              </div>
-
-              <div className="col-xs-12 col-sm-12  col-md-12 col-lg-2">
-                <div className="search-controller">
-                  <button className="search-btn">
-                    <i class="fa-solid fa-wrench"></i>
-                  </button>
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="offcanvasNavbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ color: "#9c9c9f" }}
-                  >
-                    Ajustes
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-xs-12 col-sm-12  col-md-12 col-lg-5 ">
-            <div className="items row justify-content-end align-items-center">
-              <div className="col-xs-12 col-sm-12  col-md-12 col-lg-3">
-                <div className="search-controller">
-                  <button className="search-btn">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                  </button>
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="offcanvasNavbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ color: "#9c9c9f" }}
-                  >
-                    Refresh
-                  </a>
-                  <div className="divider-tolbar"></div>
-                </div>
-              </div>
-
-              <div className="col-xs-12 col-sm-12  col-md-12 col-lg-3">
-                <div className="search-controller">
-                  <button className="search-btn">
-                    <i class="fa-solid fa-filter"></i>
-                  </button>
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="offcanvasNavbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{ color: "#9c9c9f" }}
-                  >
-                    Filtro
-                  </a>
-                  <div className="divider-tolbar"></div>
-                </div>
-              </div>
-
-              <div className="col-xs-12 col-sm-12  col-md-12 col-lg-3">
-                <div className="search-controller">
-                  <button className="search-btn">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </li>
   );
 };

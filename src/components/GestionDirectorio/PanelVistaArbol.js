@@ -18,6 +18,7 @@ import {
   setActive,
   setActiveCopy,
 } from "../../actions/events";
+import { stylesTreeBeard } from "./stylesTreeBeard";
 
 const directory = {
   name: "root",
@@ -118,7 +119,12 @@ export const PanelVistaArbol = () => {
   return (
     <div>
       <ContextMenuTrigger id="same_unique_identifier">
-        <Treebeard className="toggle" data={data} onToggle={onToggle} />
+        <Treebeard
+          className="toggle"
+          data={files}
+          onToggle={onToggle}
+          style={stylesTreeBeard}
+        />
       </ContextMenuTrigger>
 
       <ContextMenu id="same_unique_identifier">

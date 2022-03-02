@@ -15,7 +15,7 @@ export const LoginScreen = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(startLogin(lEmail, lPassword, 1232));
+    dispatch(startLogin(lEmail, lPassword));
   };
 
   return (
@@ -71,7 +71,7 @@ export const LoginScreen = () => {
               Recuérdame
             </label>
           </div>
-          <button type="submit" className="btn btn-white">
+          <button type="submit" className="btn btn-white" onClick={handleLogin}>
             INICIAR SESIÓN
           </button>
         </form>

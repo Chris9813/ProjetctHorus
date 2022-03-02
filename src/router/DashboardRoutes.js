@@ -7,7 +7,6 @@ import { NavBar } from "../components/ui/NavBar";
 export const DashboardRoutes = () => {
   return (
     <>
-      <NavBar />
       <div>
         <Routes>
           <Route path="home" element={<HomeScreen />} />
