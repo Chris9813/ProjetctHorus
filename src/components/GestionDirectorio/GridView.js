@@ -1,31 +1,48 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { Route, Switch, Redirect } from 'react-router-dom';
 import MaterialTable, { MTableToolbar } from "material-table";
 import { directory } from "../../helpers/directory";
+import  PanelVistaFavoritos from "./PanelVistaFavoritos";
+import { useDispatch,useSelector } from "react-redux";
+
+import {
+ 
+  seleccionarFav
+
+} from "../../actions/events";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 export const GridView = () => {
+ 
+  const dispatch = useDispatch();
+  const { Favoritos } = useSelector(
+    (state) => state.events
+   
+  );
+  console.log(Favoritos)
   const [data, setData] = useState(directory.children);
-
+  const [fila, setFila] = useState({});
+  var copiaObjeto;
   const iconFin = (rowData) => {
     switch (rowData.extension) {
       case "folder":
         return (
           <div className="name-gridview">
             <div className="d-flex margin-grid">
-              <i class="fa-solid fa-folder fa-1x"></i>
-              <div className="text-white">...</div>
-              <p className="textfolder">{rowData.nombre}</p>
+            <i class="fa-solid fa-folder fa-1x"></i>
+              <p className="textfolder">{rowData.name}</p>
             </div>
           </div>
         );
-
+ 
       case "txt":
         return (
           <div className="d-flex name-gridview">
             <i class="fa-solid fa-file-lines"></i>
-            <div className="text-white">...</div>
-            <p className="textfolder">{rowData.nombre}</p>
+           
+            <p className="textfolder">{rowData.name}</p>
           </div>
         );
 
@@ -33,8 +50,8 @@ export const GridView = () => {
         return (
           <div className="d-flex name-gridview">
             <i class="d-flex fa-solid fa-file-zipper"></i>
-            <div className="text-white">...</div>
-            <p className="textfolder">{rowData.nombre}</p>
+            
+            <p className="textfolder">{rowData.name}</p>
           </div>
         );
     }
@@ -50,7 +67,7 @@ export const GridView = () => {
   const [columns, setColumns] = useState([
     {
       title: "Nombre",
-      field: "nombre",
+      field: "name",
       render: (rowData) => iconFin(rowData),
       width: "",
       align: "end",
@@ -72,12 +89,17 @@ export const GridView = () => {
     },
   ]);
 
+const handleclic=(rowData)=>{
+  console.log(rowData)
+}
+
   const handleClick = (row, rows) => {
     const dataModificada = directory.children.filter(
       (item) => item.parentId === rows.id
     );
-
+  
     dataModificada.length > 0 && setData(dataModificada);
+    console.log(rows)
   };
 
   const handlereturn = () => {
@@ -94,23 +116,69 @@ export const GridView = () => {
     }
 
     setData(directory.children);
+
+    
   };
+
+  function handleFav(row, rows){
+    var dato = rows.name
+    console.log(dato)
+    dispatch(seleccionarFav(rows))
+    //añadirFav(Favoritos, 'name', dato, rows)
+   }
+  /* const añadirFav = (obj = {}, key, value, objeto={}) => 
+   {
+
+      const recursiveSearch = (obj = {}) => 
+      {
+           if (!obj || typeof obj !== 'object') { return;};
+           if (obj[key] === value)
+           {
+            console.log("id existente")
+           }
+           else
+           {
+            dispatch(seleccionarFav(objeto))
+            
+           }
+           Object.keys(obj).forEach(function (k) 
+           {
+               recursiveSearch(obj[k]);
+           });
+       } 
+     
+         recursiveSearch(obj);
+       
+   }  */
 
   return (
     <>
-      <ContextMenuTrigger id="same_unique_identifier">
+ 
+      <ContextMenuTrigger id="same_unique_identifier_tres">
         <MaterialTable
           title=""
           columns={columns}
           data={data}
+          actions={[
+            {
+              
+              icon:()=><button className="fav"><i className="icon fas fa-star"></i></button>,
+              tooltip:'Añadir a favoritos',
+              onClick:(row, rows)=>handleFav(row, rows)
+            }
+            
+          ]}
           //parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
           options={{
             search: false,
-            selection: true,
+           
             tableLayout: "auto",
+            
           }}
           onRowClick={(row, rows) => handleClick(row, rows)}
-          components={{
+         
+          
+          components={{ 
             Toolbar: (props) => (
               <div>
                 <MTableToolbar {...props} />
@@ -130,7 +198,7 @@ export const GridView = () => {
           }}
         />
       </ContextMenuTrigger>
-      <ContextMenu id="same_unique_identifier">
+      <ContextMenu id="same_unique_identifier_tres">
         <MenuItem data={{ foo: "cursor" }}>Copiar</MenuItem>
 
         <MenuItem className="pegar" data={{ foo: "bar" }}>
@@ -139,7 +207,7 @@ export const GridView = () => {
 
         <MenuItem data={{ foo: "bar" }}>Crear carpeta</MenuItem>
 
-        <MenuItem data={{ foo: "bar" }}>Añair a favoritos</MenuItem>
+        <MenuItem data={{ foo: "rows" }} onClick={handleFav} >Añair a favoritos</MenuItem>
 
         <MenuItem data={{ foo: "bar" }}>Propiedades</MenuItem>
 

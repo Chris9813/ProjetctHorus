@@ -1,6 +1,7 @@
 import { findObject, deleteObject } from "../helpers/findObject";
 import { types } from "../types/types";
 
+
 const directory = {
   name: "root",
   toggled: true,
@@ -27,6 +28,7 @@ const directory = {
 
 const initialState = {
   files: directory.children,
+  Favoritos:[],
 };
 
 export const eventsReducer = (state = initialState, action) => {
@@ -65,7 +67,16 @@ export const eventsReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+
+      case types.gestionSelectFavorito:
+        console.log(action.payload)
+        return {
+          ...state,
+          Favoritos:[...state.Favoritos, action.payload]
+        };
+
     default:
+      
       return state;
   }
 };

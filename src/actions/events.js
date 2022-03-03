@@ -49,3 +49,8 @@ export const handleDetele = (event) => ({
   type: types.gestionDelated,
   payload: event,
 });
+
+export const seleccionarFav =(event) =>({
+  type: types.gestionSelectFavorito,
+  payload: event,
+})

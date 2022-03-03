@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { useDispatch, useSelector } from "react-redux";
 import { Treebeard } from "react-treebeard";
-import  PanelVistaFavoritos  from "./PanelVistaFavoritos";
+
 import {
   Modal,
   ModalHeader,
@@ -18,49 +18,30 @@ import {
   handleDetele,
   setActive,
   setActiveCopy,
+  seleccionarFav
+
 } from "../../actions/events";
 import { stylesTreeBeard } from "./stylesTreeBeard";
-const Favoritos={
-  name:"Favoritos",
-  toggled:false,
-  children: [],
+
+const directory={
+   
 }
 
-const directory = {
-  name: "root",
-  toggled: true,
-  children: [
-    {
-      name: "parent",
-      children: [{ name: "child1" }, { name: "child2" }],
-    },
-    {
-      name: "loading parent",
-      children: [{ name: "childLoadingf1" }, { name: "childLoadingf2" }],
-    },
-    {
-      name: "parent2",
-      children: [
-        {
-          name: "nested parent",
-          children: [{ name: "nested child 1" }, { name: "nested child 2" }],
-        },
-      ],
-    },
-  ],
-};
 
-export const PanelVistaArbol = () => {
+
+ const PanelVistaFavoritos = () => {
+    var copiaObjeto;
+   
   const dispatch = useDispatch();
-  const { activeFile, files, activeFileCopy } = useSelector(
+  const { activeFile, activeFileCopy, Favoritos } = useSelector(
     (state) => state.events
+   
   );
-
+ 
   const [data, setData] = useState(directory);
   const [cursor, setCursor] = useState(false);
   const [abierto, setAbierto] = useState(false);
 
-  var copiaObjeto;
   const initiEvent = {
     name: "",
   };
@@ -99,7 +80,6 @@ export const PanelVistaArbol = () => {
       children: nojoHijos,
     };
     dispatch(setActiveCopy(copiaObjeto));
-    console.log("deberia estar aqui")
   }
 
   function clickPegar(e, datos) {
@@ -125,34 +105,57 @@ export const PanelVistaArbol = () => {
   };
 
   function handleFav(e, d){
+      
     const nameItem = d.target.innerHTML;
     const nojoHijos= d.foo.children;
    copiaObjeto={
       name: nameItem,
       children:nojoHijos
     };
-    const elemento= 
-     console.log(elemento)
-  
+   console.log(nameItem)
    }
-
- 
-  
-
+   console.log(Favoritos);
   return (
     <div>
-      <ContextMenuTrigger id="same_unique_identifier_uno">
+      <ContextMenuTrigger id="same_unique_identifier">
         <Treebeard
           className="toggle"
-          data={files}
+          data={Favoritos}
           onToggle={onToggle}
           style={stylesTreeBeard}
         />
-   
-
+      
       </ContextMenuTrigger>
 
-     
+      <ContextMenu id="same_unique_identifier">
+        <MenuItem
+          data={{ foo: cursor }}
+          onClick={handleClick}
+          onToggle={onToggle}
+        >
+          Copiar
+        </MenuItem>
+
+        <MenuItem className="pegar" data={{ foo: "bar" }} onClick={clickPegar}>
+          Pegar
+        </MenuItem>
+
+        <MenuItem data={{ foo: "bar" }} onClick={handleCrear}>
+          Crear carpeta
+        </MenuItem>
+
+        <MenuItem data={{ foo: "bar" }} onClick={handleFav}>
+          Añair a favoritos
+        </MenuItem>
+
+        <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+          Propiedades
+        </MenuItem>
+
+        <MenuItem data={{ foo: "bar" }} onClick={handleDelete}>
+          Eliminar
+        </MenuItem>
+      </ContextMenu>
 
       <Modal isOpen={abierto}>
         <ModalHeader>Crea una carpeta</ModalHeader>
@@ -176,3 +179,4 @@ export const PanelVistaArbol = () => {
     </div>
   );
 };
+export default PanelVistaFavoritos;

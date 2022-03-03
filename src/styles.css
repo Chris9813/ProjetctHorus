@@ -192,7 +192,6 @@ header,
 
 /* Nav Bar Home Screen */
 
-
 .my-container {
   margin-left: 15rem;
 }
@@ -253,17 +252,24 @@ nav.react-contextmenu {
   margin-inline: 0.5rem;
 }
 .navbar-grid {
-  background-color: #ee4a23;
+  background-color: #10476b;
   height: 50px;
 }
 .logo {
   max-width: 18%;
+}
+.icon{
+  max-height: 5px;
 }
 .logoHorus {
   margin-left: -10%;
 }
 .navbar .search-controller {
   color: rgb(124, 122, 122);
+}
+.fav{
+  background: transparent;
+  border: 0;
 }
 
 .navbar .search-controller .search-btn {
@@ -351,38 +357,15 @@ nav.react-contextmenu {
   margin-top: -20px;
   transform: translateY(-35px);
 }
- .toolBarGridView.active{
- width: 20px;
- background-color: yellow;
-}
+
 /*Toolbar */
 
 /*Sidebar */
 
-.side-menu{
-  position: fixed;
-  background: transparent;
-  width: 250px;
-  height: 100%;
-  box-sizing: border-box;
-  transition: width .2s ease-in;
-  z-index: 1;
-}
-.side-menu.inactive{
-  background: transparent;
-  width: 80px;
-}
 
 aside {
   height: 100vh;
   background-color: rgb(239, 238, 237);
-  transition: width .2s ease-in;
-  width: 300px;
-}
-
-aside.inactive{
-  width: 50px;
-  
 }
 h1 span {
   font-weight: 300;
@@ -391,6 +374,15 @@ h1 span {
   font-size: 2rem;
   font-weight: 800;
   color: dimgray;
+  margin-top: 2rem !important;
+  margin-left: 1.5rem;
+}
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  background-color: #efeeed;
+  transition: 0.4s;
 }
 h2 {
   color: dimgray;
@@ -402,25 +394,25 @@ h2 {
   font-size: 2rem;
   color: dimgray;
 }
-.side-menu.inactive .mt-1{
-  opacity: 0;
-    width: 0;
-    height: 0;
-    overflow: hidden;
+ion-icon {
+  font-size: 2.5rem;
+  color: white;
+  margin-left: 1.3rem;
 }
-
-.side-menu.inactive .h1-sidebar {
-  opacity: 0;
-  transition: .2s ease-in;
+.file-horus {
+  border-bottom-right-radius: 2rem;
+  border-top-right-radius: 2rem;
+  background-color: rgb(15, 76, 110);
+  height: 3rem;
 }
-
-.side-menu.inactive .divizor{
- 
-    width: 6rem;
-   
+.bg-file-station {
+  margin-left: -15px;
 }
-.divizor{
-  width: 17rem;
+.ul-horus {
+  background-color: rgb(216, 223, 228);
+}
+.star{
+  margin-top: 2px;
 }
 /*Sidebar */
 
@@ -494,9 +486,39 @@ h2 {
   margin-inline: 0rem;
   border-collapse: collapse;
 }
-.MuiTableCell-head {
-  color: #157ca7 !important;
-  font-weight: 500;
-  line-height: 1.5rem;
+
+.MuiTableSortLabel-root {
+  border-right: 1px solid #3a6679 !important;
 }
+
+.MuiTableCell-paddingNone {
+  padding-top: 15px;
+}
+.MuiTableCell-head {
+  color: #3a6679 !important;
+  font-weight: bold !important;
+}
+.textfolder {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 16px;
+}
+.MuiCheckbox-root {
+  color: rgba(0, 0, 0, 0.54);
+  margin-top: 0px !important;
+}
+.name-gridview {
+  margin-top: 1rem;
+  margin-left: 34px;
+}
+.MuiTableCell-body {
+  color: rgba(0, 0, 0, 0.87);
+  padding: 0px !important;
+}
+.MuiTableCell-paddingNone {
+  padding-top: -1px !important;
+}
+[data-rbd-drag-handle-context-id="0"] {
+  margin-inline: 20px !important;
+}
+
 /*gridview */

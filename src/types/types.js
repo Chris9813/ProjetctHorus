@@ -3,10 +3,13 @@ export const types = {
   uiCloseModal: "[ui] Close modal",
   eventOpenModalWith: "[gestion] Open modal With",
 
+  gestionSelectFavorito: "[gestion] add favorito",
+  gestionDeleteFvorito: "[gestion] add favorito",
   gestionSetActive: "[gestion] Set active",
   gestionLogout: "[gestion] Start clear logout",
   gestionClearActive: "[gestion] Clear active gestion",
   gestionSetActiveCopy: "[gestion] Set active copy",
+  
 
   gestionStartAddNew: "[gestion] Start add new",
   gestionAddNew: "[gestion] Add new",
@@ -20,4 +23,7 @@ export const types = {
   authFinishLogin: "[auth] Finish start login",
   authStartTokenRenew: "[auth] Start token renew",
   authLogout: "[auth] Start logout",
+
+
+
 };
