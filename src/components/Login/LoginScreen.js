@@ -1,76 +1,57 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { login, startLogin } from "../../actions/auth";
-import { useForm } from "../../hooks/useForm";
+import { change2bc, login, startCheking } from "../../actions/auth";
+
+import { useMsal } from "@azure/msal-react";
+
+import { loginRequest } from "../../auth/authConfig";
 
 export const LoginScreen = () => {
+  const { instance, accounts } = useMsal();
   const dispatch = useDispatch();
-
-  const [formLoginValues, handleLoginInputChange] = useForm({
-    lEmail: "",
-    lPassword: "",
-  });
-
-  const { lEmail, lPassword } = formLoginValues;
+  const name = accounts[0] ? accounts[0].name : undefined;
+  const email = accounts[0] ? accounts[0].username : undefined;
+  const aud = accounts[0] ? accounts[0].idTokenClaims.aud : undefined;
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(startLogin(lEmail, lPassword));
+    instance.loginRedirect(loginRequest);
+    dispatch(login(name, email, aud));
   };
+
+  useEffect(() => {
+    dispatch(startCheking(name, email, aud));
+  }, [accounts, name, email, aud]);
 
   return (
     <div className="bg-opacity h-w-block radius text-center">
       <h1 className="mt-5 title">HORUS+</h1>
       <div className="mx-3">
         <form className="mt-3 mx-4 width-form" action="#">
-          <div className="input-group mb-3 h-w-input">
-            <label
-              for="user"
-              className="input-group-text border-form color-span px-3"
-              id="basic-addon1"
-            >
-              <i className="fas fa-user text-light"></i>
-            </label>
-            <input
-              type="text"
-              className="form-control border-form color-input"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              id="user"
-              name="lEmail"
-              value={lEmail}
-              onChange={handleLoginInputChange}
-            />
+          <div>
+            <p className="p-input-usuario">
+              PRIMERO SELECCIONA UN TIPO DE USUARIO
+            </p>
+            <div className="usuario-cenit-radio">
+              <span style={{ marginInline: "0.82rem" }}>Usuario CENIT</span>
+              <input
+                className="check-Usuario"
+                name="checkUsuario"
+                type="radio"
+                onChange={() => dispatch(change2bc(false))}
+              />
+            </div>
+            <div>
+              <span style={{ marginInline: "0.5rem" }}>Usuario Externo</span>
+              <input
+                className="check-Usuario"
+                name="checkUsuario"
+                type="radio"
+                onChange={() => dispatch(change2bc(true))}
+              />
+            </div>
           </div>
-          <div className="input-group mb-3 h-w-input">
-            <label
-              for="password"
-              className="input-group-text border-form color-span px-3"
-              id="basic-addon1"
-            >
-              <i className="fas fa-lock text-light"></i>
-            </label>
-            <input
-              type="password"
-              className="form-control border-form color-input"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-              id="password"
-              name="lPassword"
-              value={lPassword}
-              onChange={handleLoginInputChange}
-            />
-          </div>
-          <div className="ms-1 mb-3 form-check d-flex">
-            <input
-              type="checkbox"
-              className="form-check-input me-2 checkbox"
-              id="exampleCheck1"
-            />
-            <label className="form-check-label check-label" for="exampleCheck1">
-              Recuérdame
-            </label>
-          </div>
+
           <button type="submit" className="btn btn-white" onClick={handleLogin}>
             INICIAR SESIÓN
           </button>

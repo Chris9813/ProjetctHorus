@@ -1,16 +1,31 @@
 export const findObject = (obj = {}, key, value, copiaObjeto = {}) => {
   const recursiveSearch = (obj = {}) => {
-    console.log(obj);
     if (!obj || typeof obj !== "object") {
       return;
     }
     if (obj[key] === value) {
+      console.log(obj);
       if (obj["children"]) {
         obj["children"].push(copiaObjeto);
       } else {
         obj["children"] = [];
         obj["children"].push(copiaObjeto);
       }
+    }
+    Object.keys(obj).forEach(function (k) {
+      recursiveSearch(obj[k]);
+    });
+  };
+  recursiveSearch(obj);
+};
+
+export const findAllObject = (obj = {}, key, value, copiaObjeto) => {
+  const recursiveSearch = (obj = {}) => {
+    if (!obj || typeof obj !== "object") {
+      return;
+    }
+    if (obj[key] === value) {
+      copiaObjeto.push(obj);
     }
     Object.keys(obj).forEach(function (k) {
       recursiveSearch(obj[k]);

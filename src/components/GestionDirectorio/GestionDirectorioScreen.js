@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { GridView } from "./GridView";
-import { PanelVistaArbol } from "./PanelVistaArbol";
 import { ToolBarGridView } from "./ToolBarGridView";
 import SideBar from "../ui/SideBar";
-import { Link } from "react-router-dom";
-import logoHorus from "./logoHorus.png";
 import { NavBarGestion } from "../ui/NavBarGestion";
+import { startLoadContainers } from "../../actions/events";
+import { startLoadContainersGrid } from "../../actions/events";
+import { useDispatch } from "react-redux";
 
 export const GestionDirectorioScreen = () => {
+  const dispatch = useDispatch();
+  
+  const oid = localStorage.getItem("oid");
+  console.log(oid)
+  dispatch(startLoadContainers(oid));
+  dispatch(startLoadContainersGrid());
+  
   return (
-    <>
+    <div className="gestion-screen">
       <NavBarGestion />
       <div className="sidebar">
-        {/*<PanelVistaArbol />*/}
         <SideBar />
       </div>
 
@@ -20,10 +26,10 @@ export const GestionDirectorioScreen = () => {
         <div className="container-toolbar">
           <ToolBarGridView />
         </div>
-        <div className="gridView-general ">
+        <div className="container gridView-general ">
           <GridView />
         </div>
       </section>
-    </>
+    </div>
   );
 };

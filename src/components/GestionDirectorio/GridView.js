@@ -1,83 +1,45 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React,{useState} from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import { Route, Switch, Redirect } from 'react-router-dom';
-import MaterialTable, { MTableToolbar } from "material-table";
-import { directory } from "../../helpers/directory";
-import  PanelVistaFavoritos from "./PanelVistaFavoritos";
-import { useDispatch,useSelector } from "react-redux";
-
+import MaterialTable, { MTableToolbar } from "@material-table/core";
+import { iconFind } from "../../helpers/iconFind";
+import { startLoadContainersGrid } from "../../actions/events";
+import { useDispatch, useSelector } from "react-redux";
 import {
- 
-  seleccionarFav
-
+  seleccionarFav,
+  gestionSetActiveView,
+  gestionAddHistory,
+  returnHistory,
+  addPosition,
+  selectObjectProps,
+  openModalPropiedades,
+  eliminarFav
 } from "../../actions/events";
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import { findAllObject } from "../../helpers/findObject";
+import { ModalPropiedades } from "./ModalPropiedades";
 
 export const GridView = () => {
- 
   const dispatch = useDispatch();
-  const { Favoritos } = useSelector(
+  const oid = localStorage.getItem("oid");
+  const { files, filesView, history, position, Favoritos } = useSelector(
     (state) => state.events
-   
   );
-  console.log(Favoritos)
-  const [data, setData] = useState(directory.children);
-  const [fila, setFila] = useState({});
-  var copiaObjeto;
-  const iconFin = (rowData) => {
-    switch (rowData.extension) {
-      case "folder":
-        return (
-          <div className="name-gridview">
-            <div className="d-flex margin-grid">
-            <i class="fa-solid fa-folder fa-1x"></i>
-              <p className="textfolder">{rowData.name}</p>
-            </div>
-          </div>
-        );
- 
-      case "txt":
-        return (
-          <div className="d-flex name-gridview">
-            <i class="fa-solid fa-file-lines"></i>
-           
-            <p className="textfolder">{rowData.name}</p>
-          </div>
-        );
+  const [estado, setEstado] = useState(false);
+  const data = files;
 
-      default:
-        return (
-          <div className="d-flex name-gridview">
-            <i class="d-flex fa-solid fa-file-zipper"></i>
-            
-            <p className="textfolder">{rowData.name}</p>
-          </div>
-        );
-    }
-  };
-  {
-    /*
-      title: "",
-      field: "extension",
-      render: (rowData) => iconFin(rowData),
-      align: "center",
-      */
-  }
-  const [columns, setColumns] = useState([
+  const columns = [
     {
       title: "Nombre",
       field: "name",
-      render: (rowData) => iconFin(rowData),
+      render: (rowData) => iconFind(rowData),
       width: "",
-      align: "end",
+      align: "center",
     },
     {
       title: "Tiempo de modificado",
-      field: "fecha_modificacion",
+      field: "fechaMod",
       align: "center",
     },
-    { title: "Tipo", field: "modificado_por", align: "center" },
+    { title: "Tipo", field: "extension", align: "center" },
     {
       title: "Tamaño",
       field: "tamaño",
@@ -85,112 +47,156 @@ export const GridView = () => {
     },
     {
       title: "Propietario",
-      field: "propietario",
+      field: "modifPor",
     },
-  ]);
+  ];
 
-const handleclic=(rowData)=>{
-  console.log(rowData)
-}
-
-  const handleClick = (row, rows) => {
-    const dataModificada = directory.children.filter(
-      (item) => item.parentId === rows.id
-    );
+  const handleClick = (rows) => {
+    if (!rows.children) return;
+    dispatch(gestionSetActiveView(rows.children));
+    dispatch(gestionAddHistory(rows.name));
+    console.log(rows.url)
   
-    dataModificada.length > 0 && setData(dataModificada);
-    console.log(rows)
-  };
-
-  const handlereturn = () => {
-    const index = data[0].path.length - 3;
-
-    if (index > -1) {
-      const path = data[0].path[index];
-
-      const dataMod = directory.children.filter(
-        (item) => item.path[0] === path
-      );
-      dataMod.shift();
-      return setData(dataMod);
-    }
-
-    setData(directory.children);
-
     
   };
+  
+  const handlereturn = (e, d) => {
+    const nombreAnteriorItem = position[position.length - 2];
+    let obj = [];
+    findAllObject(data, "name", nombreAnteriorItem, obj);
+    console.log(position.length === 2);
+    if (position.length === 1) {
+      dispatch(returnHistory());
+      return dispatch(gestionSetActiveView(data));
+    }
 
-  function handleFav(row, rows){
-    var dato = rows.name
-    console.log(dato)
-    dispatch(seleccionarFav(rows))
-    //añadirFav(Favoritos, 'name', dato, rows)
-   }
-  /* const añadirFav = (obj = {}, key, value, objeto={}) => 
-   {
+    dispatch(returnHistory());
+    dispatch(gestionSetActiveView(obj[0].children));
+  };
 
-      const recursiveSearch = (obj = {}) => 
-      {
-           if (!obj || typeof obj !== 'object') { return;};
-           if (obj[key] === value)
-           {
-            console.log("id existente")
-           }
-           else
-           {
-            dispatch(seleccionarFav(objeto))
-            
-           }
-           Object.keys(obj).forEach(function (k) 
-           {
-               recursiveSearch(obj[k]);
-           });
-       } 
-     
-         recursiveSearch(obj);
-       
-   }  */
+  const handleNext = () => {
+    if (position.length === 0) {
+      let obj = [];
+      findAllObject(data, "name", history[0], obj);
+      dispatch(addPosition(obj[0]));
+      return dispatch(gestionSetActiveView(obj[0].children));
+    }
+
+    const nombreSiguiente = position[position.length - 1];
+    let indice = 0;
+    for (let i = 0; i <= history.length; i++) {
+      if (history[i] === nombreSiguiente) {
+        indice = i + 1;
+      }
+    }
+
+    let obj = [];
+    findAllObject(data, "name", history[indice], obj);
+    dispatch(gestionAddHistory(obj[0]));
+    dispatch(gestionSetActiveView(obj[0].children));
+  };
+
+  function handleFav(row, rows) {
+    let obj = [];
+    findAllObject(data, "name", rows.target.innerHTML, obj);
+    dispatch(seleccionarFav(obj[0]));
+  }
+
+ 
+  function handleFavButton(row, rows) {
+    let resultado = Favoritos.find(fav => fav.name==rows.name)
+    console.log(resultado)
+    if(resultado){
+      alert("ya existe en favoritos")
+    }
+    else{
+      
+      dispatch(seleccionarFav(rows));
+      setEstado(true)
+    }
+}
+  const handleClickPropiedades = (e, datos) => {
+    const nameItem = datos.target.innerHTML;
+    let obj = [];
+    findAllObject(files, "name", nameItem, obj);
+
+    dispatch(selectObjectProps(obj));
+    dispatch(openModalPropiedades());
+  };
+
+  function handleDeleteFavButton(row, rows) {
+    dispatch(eliminarFav(rows));
+    setEstado(false)
+}
 
   return (
     <>
- 
-      <ContextMenuTrigger id="same_unique_identifier_tres">
+      <ContextMenuTrigger id="same_unique_identifier2">
         <MaterialTable
           title=""
           columns={columns}
-          data={data}
-          actions={[
-            {
-              
-              icon:()=><button className="fav"><i className="icon fas fa-star"></i></button>,
-              tooltip:'Añadir a favoritos',
-              onClick:(row, rows)=>handleFav(row, rows)
-            }
-            
-          ]}
+          data={filesView}
           //parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
           options={{
             search: false,
-           
+            selection: false,
             tableLayout: "auto",
-            
           }}
-          onRowClick={(row, rows) => handleClick(row, rows)}
-         
-          
-          components={{ 
+          actions={[ 
+            rowData=>(
+              console.log(rowData),
+              rowData.tipo == 1 ? (
+               Favoritos.find(fav => fav.name==rowData.name) ? (
+                  { 
+                    icon: () => (
+                      <>
+                      <button className="fav">
+                      <i class="fa-regular fa-star"></i>
+                      </button>
+                      </>
+                    ),
+                    tooltip: "Añadir a favoritos",
+                    onClick: (row, rows) => handleDeleteFavButton(row, rows),
+                  
+                  }
+                ):(
+                  { 
+                    icon: () => (
+                      <>
+                      <button className="fav">
+                          <i className="fas fa-star"></i> 
+                      </button>
+                      </>
+                    ),
+                    tooltip: "Añadir a favoritos",
+                    onClick: (row, rows) => handleFavButton(row, rows),
+                   
+                  }
+                )
+              ):(
+              console.log("no debe ir icnon")
+              )
+
+              
+            )
+      ]}
+          onRowClick={(evt, selectedRow) => handleClick(selectedRow)}
+          components={{
             Toolbar: (props) => (
               <div>
                 <MTableToolbar {...props} />
                 <div className="icon-group-gridview">
                   <i
-                    onClick={handlereturn}
-                    class="fa-solid fa-angle-left mx-1 icons-gridView"
+                    onClick={(e, d) => handlereturn(e, d)}
+                    className="fa-solid fa-angle-left mx-1 icons-gridView"
                   ></i>
-                  <i class="fa-solid fa-angle-right icons-gridView"></i>
+                  <i
+                    className="fa-solid fa-angle-right icons-gridView"
+                    onClick={handleNext}
+                  ></i>
                   <i
                     onClick={handlereturn}
-                    class="fa-solid fa-arrow-turn-up icons-gridView transform"
+                    className="fa-solid fa-arrow-turn-up icons-gridView transform"
                   ></i>
                 </div>
               </div>
@@ -198,7 +204,7 @@ const handleclic=(rowData)=>{
           }}
         />
       </ContextMenuTrigger>
-      <ContextMenu id="same_unique_identifier_tres">
+      <ContextMenu id="same_unique_identifier2">
         <MenuItem data={{ foo: "cursor" }}>Copiar</MenuItem>
 
         <MenuItem className="pegar" data={{ foo: "bar" }}>
@@ -207,12 +213,17 @@ const handleclic=(rowData)=>{
 
         <MenuItem data={{ foo: "bar" }}>Crear carpeta</MenuItem>
 
-        <MenuItem data={{ foo: "rows" }} onClick={handleFav} >Añair a favoritos</MenuItem>
+        <MenuItem data={{ foo: "bar" }} onClick={handleFav}>
+          Añadir a favoritos
+        </MenuItem>
 
-        <MenuItem data={{ foo: "bar" }}>Propiedades</MenuItem>
+        <MenuItem data={{ foo: "bar" }} onClick={handleClickPropiedades}>
+          Propiedades
+        </MenuItem>
 
         <MenuItem data={{ foo: "bar" }}>Eliminar</MenuItem>
       </ContextMenu>
+      <ModalPropiedades />
     </>
   );
 };

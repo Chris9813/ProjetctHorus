@@ -1,38 +1,44 @@
 import { findObject, deleteObject } from "../helpers/findObject";
 import { types } from "../types/types";
 
-
-const directory = {
-  name: "root",
-  toggled: true,
-  children: [
-    {
-      name: "parent",
-      children: [{ name: "child1" }, { name: "child2" }],
-    },
-    {
-      name: "loading parent",
-      children: [{ name: "childLoadingf1" }, { name: "childLoadingf2" }],
-    },
-    {
-      name: "parent2",
-      children: [
-        {
-          name: "nested parent",
-          children: [{ name: "nested child 1" }, { name: "nested child 2" }],
-        },
-      ],
-    },
-  ],
+const modelData = {
+  name: "NAN",
+  tamaño: "NAN",
+  Subcarpetas: "NAN",
+  tipo: "NAN",
+  archivos: "NAN",
+  carpetas: "NAN",
+  ruta: "NAN",
+  fechaMod: "NAN",
+  modifPor: "NAN",
+  children: [],
 };
 
 const initialState = {
-  files: directory.children,
-  Favoritos:[],
+  files: [],
+  activeFileProps: [modelData],
+  Favoritos: [],
+  filesView: [],
+  history: [],
+  position: [],
 };
 
 export const eventsReducer = (state = initialState, action) => {
   switch (action.type) {
+    
+    case types.gestionLoadedView:
+      return {
+        ...state,
+        filesView: action.payload,
+      };
+
+
+    case types.gestionLoaded:
+      return {
+        ...state,
+        files: action.payload,
+      };
+
     case types.gestionSetActive:
       return {
         ...state,
@@ -47,7 +53,8 @@ export const eventsReducer = (state = initialState, action) => {
 
     case types.gestionClearActive:
       return {
-        ...initialState,
+        ...state,
+        activeFile: [],
       };
 
     case types.gestionAddNew:
@@ -68,15 +75,72 @@ export const eventsReducer = (state = initialState, action) => {
         ...state,
       };
 
-      case types.gestionSelectFavorito:
-        console.log(action.payload)
-        return {
-          ...state,
-          Favoritos:[...state.Favoritos, action.payload]
-        };
+    case types.uiOpenModal:
+      return {
+        ...state,
+        modalCrear: true,
+      };
+    case types.uiCloseModal:
+      return {
+        ...state,
+        modalCrear: false,
+      };
+
+    case types.uiOpenModalPropiedades:
+      return {
+        ...state,
+        modalPropiedades: true,
+      };
+    case types.uiCloseModalPropiedades:
+      return {
+        ...state,
+        modalPropiedades: false,
+      };
+    case types.gestionSetActiveProps:
+      return {
+        ...state,
+        activeFileProps: action.payload,
+      };
+
+    case types.gestionSelectFavorito:
+      return {
+        ...state,
+        Favoritos: [...state.Favoritos, action.payload],
+      };
+
+    case types.gestionDeleteFvorito:
+      return {
+        ...state,
+        Favoritos: state.Favoritos.filter(
+          (fav) => fav.name !== action.payload.name
+        ),
+      };
+
+    case types.gestionSetActiveView:
+      return {
+        ...state,
+        filesView: action.payload,
+      };
+
+    case types.gestionAddHistory:
+      console.log(action.payload);
+      return {
+        ...state,
+        history: [...state.history, action.payload],
+        position: [...state.position, action.payload],
+      };
+    case types.gestionDeletePosition:
+      state.position.pop();
+      return {
+        ...state,
+      };
+    case types.gestionAddPosition:
+      return {
+        ...state,
+        position: [...state.position, action.payload],
+      };
 
     default:
-      
       return state;
   }
 };

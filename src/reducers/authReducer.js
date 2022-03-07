@@ -2,6 +2,7 @@ import { types } from "../types/types";
 
 const initialState = {
   checking: true,
+  usuarioExterno: false,
   //uid: null,
   //name: null,
 };
@@ -25,6 +26,20 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         checking: false,
       };
+
+    case types.authChangeUsuario2bc:
+      return {
+        ...state,
+        usuarioExterno: action.payload,
+      };
+
+    case types.authsetDatos:
+      return {
+        ...state,
+        vencToken: action.payload.VencimientoToken,
+        ultLogin: action.payload.UltimoAcceso,
+      };
+
     default:
       return state;
   }

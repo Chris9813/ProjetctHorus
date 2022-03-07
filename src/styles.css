@@ -17,7 +17,7 @@
 }
 .radius {
   border-radius: 2rem;
-  opacity: 90%;
+  opacity: 0.9;
 }
 .h-w-block {
   height: 22rem;
@@ -60,6 +60,29 @@
   box-shadow: none;
 }
 
+.btn-white {
+  padding-inline: 4rem;
+  background-color: #6e6ea77a;
+  margin-top: 2rem;
+}
+
+.eye-login {
+  margin-left: -20px !important;
+  position: inherit;
+  z-index: 100;
+  margin-top: 16px !important;
+  cursor: pointer;
+}
+.input-group > .form-control,
+.input-group > .form-select {
+  /* margin-left: -8px; */
+  margin-top: 0px !important;
+}
+
+.usuario-cenit-radio {
+  margin-inline: 1rem;
+}
+
 /* Login screen */
 
 /* Home screen */
@@ -69,6 +92,7 @@ header,
 #intro {
   height: 100%;
   background-image: radial-gradient(#f9f9f9, #9fa0a3);
+  overflow-x: hidden;
 }
 .minh-100 {
   height: 70vh;
@@ -76,9 +100,10 @@ header,
 }
 
 .titulo {
-  color: #ee4a23;
+  color: #0f4c6e;
   margin-top: 13%;
   font-size: 75px;
+  font-weight: 800;
 }
 .card {
   border-radius: 5%;
@@ -106,7 +131,7 @@ header,
   margin-right: 2rem;
 }
 
-.dropdown-item {
+.dropdown-item-home {
   display: block;
   padding: 0.25rem 1rem;
   clear: both;
@@ -122,7 +147,7 @@ header,
   color: #5b5b5d;
 }
 
-.dropdown-menu {
+.dropdown-menu-home {
   position: absolute;
   z-index: 1000;
   display: none;
@@ -156,9 +181,10 @@ header,
 
 .navbar-nav .dropdown-menu {
   margin-right: 10rem;
-  margin-left: -3.5rem;
+  margin-left: 6.5rem;
   width: 14rem;
   position: absolute !important;
+  margin-top: -1rem;
 }
 
 .btn-nav-home {
@@ -171,6 +197,9 @@ header,
   margin-top: 0.8rem;
   line-height: 100%;
   letter-spacing: 0.05rem;
+}
+.btn-text-up {
+  font-weight: 600;
 }
 
 .v-line {
@@ -194,6 +223,7 @@ header,
 
 .my-container {
   margin-left: 15rem;
+  background-color: #efeeed;
 }
 
 .dropdown-toggle::after {
@@ -205,8 +235,6 @@ header,
   color: #1e2125;
   background-color: rgb(250, 245, 250);
 }
-
-/* for navbar */
 
 nav.react-contextmenu {
   position: fixed;
@@ -243,7 +271,16 @@ nav.react-contextmenu {
   outline: none;
 }
 
+.iconoUsuario-Home {
+  max-height: 5rem;
+  margin-top: -0.5rem;
+  margin-left: 1rem;
+}
+
 /*NavBar GridView */
+.gestion-screen {
+  background-color: #efeeed;
+}
 .p-grid {
   color: white;
 }
@@ -256,20 +293,15 @@ nav.react-contextmenu {
   height: 50px;
 }
 .logo {
-  max-width: 18%;
-}
-.icon{
-  max-height: 5px;
+  max-width: 4.7rem;
+  margin-left: 10rem !important;
+  margin-top: -1.3rem !important;
 }
 .logoHorus {
   margin-left: -10%;
 }
 .navbar .search-controller {
   color: rgb(124, 122, 122);
-}
-.fav{
-  background: transparent;
-  border: 0;
 }
 
 .navbar .search-controller .search-btn {
@@ -305,10 +337,14 @@ nav.react-contextmenu {
 .icono {
   max-width: 40px;
   margin-top: 0.8rem;
+  border-radius: 5rem;
 }
 
 .dropdown {
   margin-left: 5%;
+}
+.MuiButtonBase-root.Mui-disabled {
+  padding-right: 7px;
 }
 
 /*NavBar  GridView  */
@@ -316,14 +352,14 @@ nav.react-contextmenu {
 /*ToolBar */
 .toolBarGridView {
   position: relative;
-  background: #e0e1e1;
+  background: #efeeed;
   width: 81.8vw;
   height: 49px;
   box-sizing: border-box;
-  padding: 0;
+  padding-left: 1rem;
   transition: width 0.2s ease-in;
   margin-top: -24px;
-  margin-inline: -1rem;
+  margin-inline: -0.5rem;
 }
 
 .search-controller .search-btn {
@@ -358,11 +394,31 @@ nav.react-contextmenu {
   transform: translateY(-35px);
 }
 
+.dropdown-menu-toolbar {
+  background-color: #ffffff;
+  min-width: 20px !important;
+  margin-left: -0.8rem !important;
+  margin-top: 14px !important;
+  cursor: pointer;
+}
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color: #1e2125;
+  background-color: transparent !important;
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
 /*Toolbar */
 
 /*Sidebar */
-
-
 aside {
   height: 100vh;
   background-color: rgb(239, 238, 237);
@@ -383,6 +439,7 @@ h1 span {
   position: fixed;
   background-color: #efeeed;
   transition: 0.4s;
+  z-index: 100;
 }
 h2 {
   color: dimgray;
@@ -411,16 +468,86 @@ ion-icon {
 .ul-horus {
   background-color: rgb(216, 223, 228);
 }
-.star{
-  margin-top: 2px;
+
+.modal-content {
+  border-radius: 17px !important;
+  margin-top: 9rem;
 }
+
+.modal-header {
+  max-height: 1.5rem;
+  justify-content: center;
+  color: white;
+  background-color: rgb(15, 76, 110);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.p-modal {
+  font-size: 15px;
+  width: 53%;
+}
+.input-group > .form-control,
+.input-group > .form-select {
+  margin-left: -8px;
+  margin-top: -6px;
+}
+.input-modal {
+  margin-top: -6px;
+}
+
+.btn-modal {
+  margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #5b5b5d;
+  border-radius: 10px;
+  margin-inline: 1rem;
+  width: 10rem;
+  color: #5b5b5d;
+}
+
+.btn-modal:hover {
+  background-color: #edf2f8;
+}
+
+.swal2-container.swal2-center > .swal2-popup {
+  margin-top: -15rem;
+}
+
+hr {
+  margin: 1rem 22px;
+  color: inherit;
+  background-color: currentColor;
+  border: 0;
+  opacity: 0.25;
+}
+
+.css-vlcsml {
+  border-radius: 0px !important;
+  min-width: 19rem;
+}
+
+.form-modal-props {
+  background-color: #eeeeee;
+  margin-top: 1rem;
+  color: #9e9c9c;
+  font-weight: 500;
+  max-width: 29rem;
+}
+
+.fav {
+  background: transparent;
+  border: 0;
+}
+
 /*Sidebar */
 
 /*gridview */
 
 .gridView-general {
   margin-right: -1.5rem;
-  margin-left: -14px;
+  margin-left: 55px;
+  padding-bottom: 8.7rem;
 }
 
 .icons-gridView {
@@ -451,6 +578,8 @@ ion-icon {
 .fa-folder:before {
   content: "\f07b";
   color: #ffd563;
+  margin-right: 8px;
+  margin-top: 12px !important;
 }
 
 .fa-file-alt:before,
@@ -489,6 +618,7 @@ ion-icon {
 
 .MuiTableSortLabel-root {
   border-right: 1px solid #3a6679 !important;
+  white-space: nowrap;
 }
 
 .MuiTableCell-paddingNone {
@@ -517,8 +647,23 @@ ion-icon {
 .MuiTableCell-paddingNone {
   padding-top: -1px !important;
 }
+
+.MuiTableSortLabel-icon {
+  font-size: 8px !important;
+  margin-left: 4rem !important;
+  margin-right: 1rem !important;
+}
 [data-rbd-drag-handle-context-id="0"] {
   margin-inline: 20px !important;
 }
 
+.MuiButtonBase-root.Mui-disabled {
+  cursor: default;
+  pointer-events: none;
+  margin-right: -8px;
+}
+
+.MuiTableCell-root {
+  padding: 16px !important;
+}
 /*gridview */

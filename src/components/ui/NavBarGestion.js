@@ -1,15 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Moment from "react-moment";
 import { logout } from "../../actions/auth";
 import logoHorus from "../../img/logoHorus.png";
-import iconoUsuario from "../../img/iconoUsuario.png";
+import logoUsuario_gestion from "../../img/logoUsuario_gestion.jpg";
+import { useMsal } from "@azure/msal-react";
 
 export const NavBarGestion = () => {
+  const { instance } = useMsal();
   const dispatch = useDispatch();
+  const { name } = useSelector((state) => state.auth);
+
+  const ultAcceso = localStorage.getItem("UltimoAcceso");
+  const vencToken = localStorage.getItem("VencimientoToken");
 
   const handleClick = () => {
+    localStorage.clear();
+    sessionStorage.clear();
     dispatch(logout());
+    instance.logoutRedirect({
+      postLogoutRedirectUri: "/",
+    });
   };
 
   return (
@@ -22,26 +34,26 @@ export const NavBarGestion = () => {
             </Link>
           </div>
 
-          <div className="search-controller">
+          <div className="search-controller" style={{ marginLeft: "16rem" }}>
             <button className="search-btn">
-              <i class="fa-solid fa-magnifying-glass"></i>
+              <i className="fa-solid fa-magnifying-glass"></i>
             </button>
 
             <input
               className="prompt"
               type="text"
-              placeholder="Busqueda"
+              placeholder="Búsqueda"
               aria-label="Search"
-              typeIcon="search"
+              typeicon="search"
             />
           </div>
 
           <div className=" btn-collapse">
             <div className="navbar-collapse" id="navbarScroll">
               <ul className=" navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-                <li class="nav-item dropdown">
+                <div className="nav-item dropdown">
                   <a
-                    class="nav-link name-navBar-Grid dropdown"
+                    className="nav-link name-navBar-Grid dropdown"
                     href="#"
                     id="offcanvasNavbarDropdown"
                     role="button"
@@ -54,46 +66,62 @@ export const NavBarGestion = () => {
                         className="btn-text-nav-home"
                         style={{ marginTop: "1.3em" }}
                       >
-                        Jesse
+                        {name}
                         <br />
                       </div>
                       <div>
-                        <img src={iconoUsuario} className="icono " />
+                        <img src={logoUsuario_gestion} className="icono " />
                       </div>
                     </div>
                   </a>
                   <ul
-                    class="dropdown-menu"
+                    className="dropdown-menu dropdown-menu-home"
                     aria-labelledby="offcanvasNavbarDropdown"
-                    style={{ marginInline: "-8rem", marginTop: "-0.8rem" }}
+                    style={{ marginInline: "4rem", marginTop: "-0.8rem" }}
                   >
                     <li>
-                      <div class="dropdown-item mt-1" href="#">
+                      <div
+                        className="dropdown-item dropdown-item-home mt-1"
+                        href="#"
+                      >
                         <b>Última vez inicio de sesión</b>
                       </div>
-                      <div class="dropdown-item" href="#">
-                        2022/02/22 08:30 am
+                      <div
+                        className="dropdown-item dropdown-item-home"
+                        href="#"
+                      >
+                        <Moment format="YYYY/MM/DD hh:mm">{ultAcceso}</Moment>
                       </div>
                     </li>
-                    <li>
-                      <div class="dropdown-item" href="#">
+                    <div>
+                      <div
+                        className="dropdown-item dropdown-item-home"
+                        href="#"
+                      >
                         <b>Contraseña valida para:</b>
-                        <div class="dropdown-item mb-2" href="#">
-                          2022/02/22
+                        <div
+                          className="dropdown-item dropdown-item-home mb-2"
+                          href="#"
+                        >
+                          <Moment format="YYYY/MM/DD hh:mm">{vencToken}</Moment>
                         </div>
                       </div>
-                      <li>
+                      <div>
                         <li className="divider">
-                          <hr class="dropdown-divider mt-0" />
+                          <hr className="dropdown-divider mt-0" />
                         </li>
-                        <a class="dropdown-item" href="#" onClick={handleClick}>
-                          <i class="fa-solid fa-arrow-right-from-bracket fa-1x mx-2"></i>
+                        <a
+                          className="dropdown-item dropdown-item-home"
+                          href="#"
+                          onClick={handleClick}
+                        >
+                          <i className="fa-solid fa-arrow-right-from-bracket fa-1x mx-2"></i>
                           <b>SALIDA</b>
                         </a>
-                      </li>
-                    </li>
+                      </div>
+                    </div>
                   </ul>
-                </li>
+                </div>
               </ul>
             </div>
           </div>

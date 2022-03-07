@@ -1,105 +1,53 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import { useDispatch, useSelector } from "react-redux";
 import { Treebeard } from "react-treebeard";
-import  PanelVistaFavoritos  from "./PanelVistaFavoritos";
 import {
-  Modal,
-  ModalHeader,
-  FormGroup,
-  Label,
-  Input,
-  ModalFooter,
-  Button,
-} from "reactstrap";
-import {
-  deleteActive,
   eventAddNew,
   handleDetele,
+  modalCrearOpen,
+  openModalPropiedades,
   setActive,
   setActiveCopy,
+  selectObjectProps,
+  gestionSetActiveView,
+  seleccionarFav,
+  gestionAddHistory,
+  addPosition,
 } from "../../actions/events";
+import { ModalCrear } from "./Modal";
+import { ModalPropiedades } from "./ModalPropiedades";
 import { stylesTreeBeard } from "./stylesTreeBeard";
-const Favoritos={
-  name:"Favoritos",
-  toggled:false,
-  children: [],
-}
-
-const directory = {
-  name: "root",
-  toggled: true,
-  children: [
-    {
-      name: "parent",
-      children: [{ name: "child1" }, { name: "child2" }],
-    },
-    {
-      name: "loading parent",
-      children: [{ name: "childLoadingf1" }, { name: "childLoadingf2" }],
-    },
-    {
-      name: "parent2",
-      children: [
-        {
-          name: "nested parent",
-          children: [{ name: "nested child 1" }, { name: "nested child 2" }],
-        },
-      ],
-    },
-  ],
-};
+import { findAllObject } from "../../helpers/findObject";
 
 export const PanelVistaArbol = () => {
   const dispatch = useDispatch();
-  const { activeFile, files, activeFileCopy } = useSelector(
-    (state) => state.events
-  );
+  const { files, activeFileCopy } = useSelector((state) => state.events);
 
-  const [data, setData] = useState(directory);
+  const [data, setData] = useState(files);
   const [cursor, setCursor] = useState(false);
-  const [abierto, setAbierto] = useState(false);
-
-  var copiaObjeto;
-  const initiEvent = {
-    name: "",
-  };
-
-  const [formValues, setformValues] = useState(initiEvent);
-
-  const { name } = formValues;
-
-  useEffect(() => {
-    setformValues(initiEvent);
-  }, [setformValues]);
-
-  const handleInputChange = ({ target }) => {
-    setformValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  };
+  const [infoCursor, setInfoCursor] = useState("");
 
   const onToggle = (node, toggled) => {
     setCursor(node);
-
     node.active = true;
     if (node.children) {
       node.toggled = toggled;
     }
     setData(Object.assign({}, data));
     setCursor(node);
+    console.log(node.name);
+    dispatch(gestionSetActiveView([node]));
+    dispatch(gestionAddHistory(node.name));
+    dispatch(addPosition(node.name));
   };
 
-  function handleClick(e, datos) {
+  function handleClickCopiar(e, datos) {
     const nameItem = datos.target.innerHTML;
-    const nojoHijos = datos.foo.children;
-    const copiaObjeto = {
-      name: nameItem,
-      children: nojoHijos,
-    };
-    dispatch(setActiveCopy(copiaObjeto));
-    console.log("deberia estar aqui")
+    let obj = [];
+    findAllObject(files, "name", nameItem, obj);
+
+    dispatch(setActiveCopy(obj[0]));
   }
 
   function clickPegar(e, datos) {
@@ -108,15 +56,8 @@ export const PanelVistaArbol = () => {
   }
 
   const handleCrear = (e, datos) => {
-    setAbierto(!abierto);
+    dispatch(modalCrearOpen());
     dispatch(setActive(datos.target.innerHTML));
-  };
-
-  const crearCarpeta = () => {
-    dispatch(eventAddNew(formValues, activeFile));
-    setAbierto(false);
-    setformValues(initiEvent);
-    dispatch(deleteActive());
   };
 
   const handleDelete = (e, datos) => {
@@ -124,55 +65,71 @@ export const PanelVistaArbol = () => {
     dispatch(handleDetele(nameItem));
   };
 
-  function handleFav(e, d){
-    const nameItem = d.target.innerHTML;
-    const nojoHijos= d.foo.children;
-   copiaObjeto={
-      name: nameItem,
-      children:nojoHijos
-    };
-    const elemento= 
-     console.log(elemento)
-  
-   }
+  const handleClickPropiedades = (e, datos) => {
+    const nameItem = datos.target.innerHTML;
+    let obj = [];
+    findAllObject(files, "name", nameItem, obj);
 
- 
-  
+    dispatch(selectObjectProps(obj));
+    dispatch(openModalPropiedades());
+  };
+
+  const handleUp = (e, b) => {
+    if (e.target.innerHTML.includes("div" || "<polygon")) return;
+    setInfoCursor(e.target.innerHTML);
+  };
+
+  function handleFav(row, rows) {
+    let obj = [];
+    findAllObject(data, "name", rows.target.innerHTML, obj);
+    console.log(obj);
+    dispatch(seleccionarFav(obj[0]));
+  }
 
   return (
-    <div>
-      <ContextMenuTrigger id="same_unique_identifier_uno">
+    <div onMouseOver={(e) => handleUp(e)}>
+      <ContextMenuTrigger id="same_unique_identifier">
         <Treebeard
           className="toggle"
           data={files}
           onToggle={onToggle}
           style={stylesTreeBeard}
         />
-   
-
       </ContextMenuTrigger>
+      {infoCursor !== "Container 1" && infoCursor !== "Container 2" && (
+        <ContextMenu id="same_unique_identifier">
+          <MenuItem data={{ foo: "bar" }} onClick={handleClickCopiar}>
+            Copiar
+          </MenuItem>
 
-     
+          <MenuItem
+            className="pegar"
+            data={{ foo: "bar" }}
+            onClick={clickPegar}
+          >
+            Pegar
+          </MenuItem>
 
-      <Modal isOpen={abierto}>
-        <ModalHeader>Crea una carpeta</ModalHeader>
-        <FormGroup>
-          <Label>Nombre de carpeta</Label>
-          <Input
-            name="name"
-            value={name}
-            onChange={handleInputChange}
-            className="nombreCarpeta"
-            type="text"
-            placeholder="Escriba nombre de la carpeta"
-          />
-        </FormGroup>
+          <MenuItem data={{ foo: "bar" }} onClick={handleCrear}>
+            Crear carpeta
+          </MenuItem>
 
-        <ModalFooter>
-          <Button onClick={crearCarpeta}>Crear Carpeta</Button>
-          <Button onClick={() => setAbierto(false)}>Cerrar</Button>
-        </ModalFooter>
-      </Modal>
+          <MenuItem data={{ foo: "bar" }} onClick={handleFav}>
+            Añadir a favoritos
+          </MenuItem>
+
+          <MenuItem data={{ foo: "bar" }} onClick={handleClickPropiedades}>
+            Propiedades
+          </MenuItem>
+
+          <MenuItem data={{ foo: "bar" }} onClick={handleDelete}>
+            Eliminar
+          </MenuItem>
+        </ContextMenu>
+      )}
+
+      <ModalCrear />
+      <ModalPropiedades />
     </div>
   );
 };

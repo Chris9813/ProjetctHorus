@@ -1,21 +1,24 @@
+import { useMsal } from "@azure/msal-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { startCheking, startLogin } from "../actions/auth";
+import { startCheking } from "../actions/auth";
 import { LoginScreen } from "../components/Login/LoginScreen";
 import { DashboardRoutes } from "./DashboardRoutes";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 
 export const Approuter = () => {
+  const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const { checking, uid, lEmail, lPassword } = useSelector(
-    (state) => state.auth
-  );
+  const { checking } = useSelector((state) => state.auth);
+  const name = accounts[0] ? accounts[0].name : undefined;
+  const email = accounts[0] ? accounts[0].username : undefined;
+  const aud = accounts[0] ? accounts[0].idTokenClaims.aud : undefined;
 
   useEffect(() => {
-    dispatch(startCheking(123, 123));
-  }, [dispatch]);
+    dispatch(startCheking(name, email, aud));
+  }, [accounts, name, email, aud]);
 
   if (checking) {
     return <h1>Espere...</h1>;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PanelVistaArbol } from "../GestionDirectorio/PanelVistaArbol";
- import  PanelVistaFavoritos  from "../GestionDirectorio/PanelVistaFavoritos";
+import PanelVistaFavoritos from "../GestionDirectorio/PanelVistaFavoritos";
+
 const SideBar = () => {
   const [desplieguehorus, setDespliegueHorus] = useState(false);
   const [despliegueFavoritos, setDespliegueFavoritos] = useState(false);
@@ -11,9 +12,7 @@ const SideBar = () => {
         <h1 className="h1-sidebar">
           File<span>Station</span>
         </h1>
-
         <div style={{ width: "18rem" }} className="bg-file-station">
-
           <div className="mt-5">
             <div
               className={
@@ -52,7 +51,6 @@ const SideBar = () => {
             )}
             <hr />
 
-
             <div
               className={
                 despliegueFavoritos
@@ -69,8 +67,8 @@ const SideBar = () => {
                   <>
                     <ion-icon
                       name="star-outline"
-                      className="star ms-3 bg-primary fs-4 icon fas">
-                    </ion-icon>
+                      className="star ms-3 bg-primary fs-4 icon fas"
+                    ></ion-icon>
                     <h2 className="mt-1 ms-3 text-white">Favoritos</h2>
                   </>
                 ) : (
@@ -89,9 +87,6 @@ const SideBar = () => {
               </ul>
             )}
             <hr />
-            
-
-          
 
             <div className="d-flex flex-row ms-5">
               <i className="icon fas fa-user-friends"></i>

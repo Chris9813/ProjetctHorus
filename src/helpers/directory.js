@@ -11,7 +11,7 @@ export const directory = {
       type: "adult",
       path: [0],
       extension: "folder",
-      children:[
+      children: [
         {
           id: 2,
           name: "Pendientes",
@@ -22,7 +22,7 @@ export const directory = {
           parentId: 1,
           path: [0, 0],
           extension: "txt",
-        }
+        },
       ],
     },
 
@@ -35,7 +35,7 @@ export const directory = {
       type: "adult",
       path: [0],
       extension: "folder",
-      children:[
+      children: [
         {
           id: 4,
           name: "Pendientes",
@@ -46,9 +46,111 @@ export const directory = {
           parentId: 1,
           path: [0, 0],
           extension: "txt",
-        }
+        },
       ],
     },
-   
+  ],
+};
+
+export const directoryTree = {
+  name: "root",
+  toggled: true,
+  children: [
+    {
+      id: 1,
+      name: "Container 1",
+      tamaño: "12GB",
+      Subcarpetas: "Subcontainer",
+      extension: "folder",
+      archivos: "5",
+      carpetas: "2",
+      ruta: "container1",
+      fechaMod: "12 jul 2021",
+      modifPor: "Admin",
+      children: [
+        {
+          id: 1.1,
+          name: "child1",
+          tamaño: "12GB",
+          Subcarpetas: "Subcontainer",
+          extension: "folder",
+          archivos: "5",
+          carpetas: "2",
+          ruta: "container1",
+          fechaMod: "12 jul 2021",
+          modifPor: "Admin",
+          children: [
+            {
+              id: 1.12,
+              name: "child1_2.docx",
+              tamaño: "12GB",
+              Subcarpetas: "Subcontainer",
+              extension: "docx",
+              ruta: "container1/child1",
+              fechaMod: "12 jul 2021",
+              modifPor: "Admin",
+            },
+          ],
+        },
+        {
+          id: 1.2,
+          name: "child2",
+          tamaño: "12GB",
+          Subcarpetas: "Subcontainer",
+          extension: "docx",
+          ruta: "container1/child1",
+          fechaMod: "12 jul 2021",
+          modifPor: "Admin",
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "Container 2",
+      tamaño: "12GB",
+      Subcarpetas: "Subcontainer",
+      extension: "folder",
+      archivos: "5",
+      carpetas: "2",
+      ruta: "container1",
+      fechaMod: "12 jul 2021",
+      modifPor: "Admin",
+      children: [
+        {
+          id: 2.1,
+          name: "child2.1",
+          tamaño: "12GB",
+          Subcarpetas: "Subcontainer",
+          extension: "folder",
+          archivos: "5",
+          carpetas: "2",
+          ruta: "container2",
+          fechaMod: "12 jul 2021",
+          modifPor: "Admin",
+          children: [
+            {
+              id: 2.12,
+              name: "child2.2.docx",
+              tamaño: "12GB",
+              Subcarpetas: "Subcontainer",
+              extension: "docx",
+              ruta: "container1/child1",
+              fechaMod: "12 jul 2021",
+              modifPor: "Admin",
+            },
+          ],
+        },
+        {
+          id: 2.2,
+          name: "child2.2",
+          tamaño: "12GB",
+          Subcarpetas: "Subcontainer",
+          extension: "docx",
+          ruta: "container1/child1",
+          fechaMod: "12 jul 2021",
+          modifPor: "Admin",
+        },
+      ],
+    },
   ],
 };
