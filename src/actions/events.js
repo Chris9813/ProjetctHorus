@@ -1,5 +1,6 @@
 import { types } from "../types/types";
 import { fetchConToken } from "../helpers/fetch";
+import { findObject } from "../helpers/findObject";
 
 export const eventStartAddNew = (event) => {
   /*
@@ -58,59 +59,40 @@ export const startLoadContainers = (oid) => {
   };
 };
 
-export const startLoadContainersGrid = () => {
+const loadContainers = (containers) => ({
+  type: types.gestionLoaded,
+  payload: containers,
+});
 
+export const startLoadFiles = (
+  oid,
+  llavecontenedor,
+  solodirectorios,
+  consultaarchivo
+) => {
   return async (dispatch) => {
-    const respuesta = await fetchConToken(
-      "ConsultaArchivosContenedores",
+    const resp = await fetchConToken(
+      "ConsultaArchivosContenedor",
       {
-        oid : "fdba0694-ecb8-457e-a25e-1885cbc31787.0da0b1a6-e6bf-434d-ad5b-689c039c77c7",
-        llavecontenedor : "AbbqpMHQl3dpYmQSHATvREfrtSrlz/D2AhxJAgQz9L5LThT4RVgh2cFkNyfgBgbh", 
-        solodirectorios : "0", 
-        consultaarchivo : "0" 
+        oid: oid,
+        llavecontenedor: llavecontenedor,
+        solodirectorios: solodirectorios,
+        consultaarchivo: consultaarchivo,
       },
-  
       "POST"
     );
-    console.log(respuesta)
-    const body = await respuesta.json();
+    const body = await resp.json();
     if (body.Resultado === 1) {
-      const diretory = {
-        name: "root",
-        toggled: true,
-        children: [],
-      };
-      body.Contenedores.map((container) => {
-        let dataContainer = {
-          name: container.name,
-          url: container.url,
-          tamano: container.tamano,
-          fechacreacion: container.fechacreacion,
-          fechamodificacion: container.fechamodificacion,
-          tipo: container.tipo,
-          urlpadre: container.urlpadre,
-          extension: "folder",
-          children: [],
-        };
-        diretory.children.push(dataContainer);
-      });
-
-      dispatch(loadContainersView(diretory.children));
-    }
-    else{
-      console.log("paila")
+      const { ListaArchivos } = body;
+      console.log(ListaArchivos);
+      dispatch(loadFiles(ListaArchivos));
     }
   };
 };
 
-const loadContainersView = (containers) => ({
-  type: types.gestionLoadedView,
-  payload: containers,
-});
-
-const loadContainers = (containers) => ({
-  type: types.gestionLoaded,
-  payload: containers,
+const loadFiles = (ListaArchivos) => ({
+  type: types.gestionLoadedFiles,
+  payload: ListaArchivos,
 });
 
 export const eventAddNew = (event, active) => ({

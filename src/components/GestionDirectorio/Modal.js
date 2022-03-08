@@ -41,16 +41,17 @@ export const ModalCrear = () => {
       fecha_modificacion: "Baran",
       modificado_por: 1987,
       tamaño: 63,
-      type: "adult",
+      tipo: 1,
       extension: "folder",
       children: [],
     };
 
-    if (activeFile) {
+    if (activeFile.lengt <= 0) {
       dispatch(eventAddNew(modelFolder, activeFile));
       dispatch(modalCrearClose());
       return setformValues(initiEvent);
     } else {
+      console.log(modelFolder, position[position.length - 1]);
       dispatch(eventAddNew(modelFolder, position[position.length - 1]));
       dispatch(modalCrearClose());
       setformValues(initiEvent);

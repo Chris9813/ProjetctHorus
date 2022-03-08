@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { GridView } from "./GridView";
 import { ToolBarGridView } from "./ToolBarGridView";
 import SideBar from "../ui/SideBar";
 import { NavBarGestion } from "../ui/NavBarGestion";
-import { startLoadContainers } from "../../actions/events";
-import { startLoadContainersGrid } from "../../actions/events";
+import { startLoadContainers, startLoadFiles } from "../../actions/events";
 import { useDispatch } from "react-redux";
+import { fetchConToken } from "../../helpers/fetch";
 
 export const GestionDirectorioScreen = () => {
   const dispatch = useDispatch();
-  
   const oid = localStorage.getItem("oid");
-  console.log(oid)
   dispatch(startLoadContainers(oid));
-  dispatch(startLoadContainersGrid());
-  
+
   return (
     <div className="gestion-screen">
       <NavBarGestion />

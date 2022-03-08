@@ -1,8 +1,7 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { iconFind } from "../../helpers/iconFind";
-import { startLoadContainersGrid } from "../../actions/events";
 import { useDispatch, useSelector } from "react-redux";
 import {
   seleccionarFav,
@@ -12,7 +11,8 @@ import {
   addPosition,
   selectObjectProps,
   openModalPropiedades,
-  eliminarFav
+  startLoadFiles,
+  eliminarFav,
 } from "../../actions/events";
 import { findAllObject } from "../../helpers/findObject";
 import { ModalPropiedades } from "./ModalPropiedades";
@@ -24,6 +24,7 @@ export const GridView = () => {
     (state) => state.events
   );
   const [estado, setEstado] = useState(false);
+
   const data = files;
 
   const columns = [
@@ -31,8 +32,8 @@ export const GridView = () => {
       title: "Nombre",
       field: "name",
       render: (rowData) => iconFind(rowData),
-      width: "",
-      align: "center",
+
+      align: "end",
     },
     {
       title: "Tiempo de modificado",
@@ -55,11 +56,9 @@ export const GridView = () => {
     if (!rows.children) return;
     dispatch(gestionSetActiveView(rows.children));
     dispatch(gestionAddHistory(rows.name));
-    console.log(rows.url)
-  
-    
+    dispatch(startLoadFiles(oid, rows.url, "0", "0"));
   };
-  
+
   const handlereturn = (e, d) => {
     const nombreAnteriorItem = position[position.length - 2];
     let obj = [];
@@ -102,19 +101,22 @@ export const GridView = () => {
     dispatch(seleccionarFav(obj[0]));
   }
 
- 
   function handleFavButton(row, rows) {
-    let resultado = Favoritos.find(fav => fav.name==rows.name)
-    console.log(resultado)
-    if(resultado){
-      alert("ya existe en favoritos")
-    }
-    else{
-      
+    let resultado = Favoritos.find((fav) => fav.name == rows.name);
+    console.log(resultado);
+    if (resultado) {
+      alert("ya existe en favoritos");
+    } else {
       dispatch(seleccionarFav(rows));
-      setEstado(true)
+      setEstado(true);
     }
-}
+  }
+
+  function handleDeleteFavButton(row, rows) {
+    dispatch(eliminarFav(rows));
+    setEstado(false);
+  }
+
   const handleClickPropiedades = (e, datos) => {
     const nameItem = datos.target.innerHTML;
     let obj = [];
@@ -123,11 +125,6 @@ export const GridView = () => {
     dispatch(selectObjectProps(obj));
     dispatch(openModalPropiedades());
   };
-
-  function handleDeleteFavButton(row, rows) {
-    dispatch(eliminarFav(rows));
-    setEstado(false)
-}
 
   return (
     <>
@@ -142,44 +139,36 @@ export const GridView = () => {
             selection: false,
             tableLayout: "auto",
           }}
-          actions={[ 
-            rowData=>(
+          actions={[
+            (rowData) => (
               console.log(rowData),
-              rowData.tipo == 1 ? (
-               Favoritos.find(fav => fav.name==rowData.name) ? (
-                  { 
-                    icon: () => (
-                      <>
-                      <button className="fav">
-                      <i class="fa-regular fa-star"></i>
-                      </button>
-                      </>
-                    ),
-                    tooltip: "Añadir a favoritos",
-                    onClick: (row, rows) => handleDeleteFavButton(row, rows),
-                  
-                  }
-                ):(
-                  { 
-                    icon: () => (
-                      <>
-                      <button className="fav">
-                          <i className="fas fa-star"></i> 
-                      </button>
-                      </>
-                    ),
-                    tooltip: "Añadir a favoritos",
-                    onClick: (row, rows) => handleFavButton(row, rows),
-                   
-                  }
-                )
-              ):(
-              console.log("no debe ir icnon")
-              )
-
-              
-            )
-      ]}
+              rowData.tipo == 1
+                ? Favoritos.find((fav) => fav.name == rowData.name)
+                  ? {
+                      icon: () => (
+                        <>
+                          <button className="fav">
+                            <i class="fa-regular fa-star"></i>
+                          </button>
+                        </>
+                      ),
+                      tooltip: "Añadir a favoritos",
+                      onClick: (row, rows) => handleDeleteFavButton(row, rows),
+                    }
+                  : {
+                      icon: () => (
+                        <>
+                          <button className="fav">
+                            <i className="fas fa-star"></i>
+                          </button>
+                        </>
+                      ),
+                      tooltip: "Añadir a favoritos",
+                      onClick: (row, rows) => handleFavButton(row, rows),
+                    }
+                : console.log("no debe ir icnon")
+            ),
+          ]}
           onRowClick={(evt, selectedRow) => handleClick(selectedRow)}
           components={{
             Toolbar: (props) => (

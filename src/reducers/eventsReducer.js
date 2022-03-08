@@ -17,6 +17,7 @@ const modelData = {
 const initialState = {
   files: [],
   activeFileProps: [modelData],
+  activeFile: [],
   Favoritos: [],
   filesView: [],
   history: [],
@@ -25,18 +26,17 @@ const initialState = {
 
 export const eventsReducer = (state = initialState, action) => {
   switch (action.type) {
-    
-    case types.gestionLoadedView:
-      return {
-        ...state,
-        filesView: action.payload,
-      };
-
-
     case types.gestionLoaded:
       return {
         ...state,
         files: action.payload,
+        filesView: action.payload,
+      };
+
+    case types.gestionLoadedFiles:
+      console.log(action.payload);
+      return {
+        ...state,
       };
 
     case types.gestionSetActive:

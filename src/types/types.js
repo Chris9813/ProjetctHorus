@@ -22,8 +22,8 @@ export const types = {
   gestionAddNew: "[gestion] Add new",
   gestionUpdate: "[gestion] gestion updted",
   gestionDelated: "[gestion] gestion delated",
-  gestionLoaded: "[gestion] gestions loaded",
-  gestionLoadedView:"[gestion] gestions loaded",
+  gestionLoaded: "[gestion] gestion loaded containers",
+  gestionLoadedFiles: "[gestion] gestion loaded files",
 
   authChecking: "[auth] Checking login state",
   authCheckingFinish: "[auth] Finish checking login state",

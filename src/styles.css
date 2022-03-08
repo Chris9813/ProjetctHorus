@@ -666,4 +666,12 @@ hr {
 .MuiTableCell-root {
   padding: 16px !important;
 }
+
+th,
+td {
+  overflow: hidden;
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 /*gridview */

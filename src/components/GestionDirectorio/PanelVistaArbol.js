@@ -14,15 +14,19 @@ import {
   seleccionarFav,
   gestionAddHistory,
   addPosition,
+  startLoadFiles,
 } from "../../actions/events";
 import { ModalCrear } from "./Modal";
 import { ModalPropiedades } from "./ModalPropiedades";
 import { stylesTreeBeard } from "./stylesTreeBeard";
-import { findAllObject } from "../../helpers/findObject";
+import { findAllObject, findObject } from "../../helpers/findObject";
 
 export const PanelVistaArbol = () => {
   const dispatch = useDispatch();
-  const { files, activeFileCopy } = useSelector((state) => state.events);
+  const { files, activeFileCopy, filesView } = useSelector(
+    (state) => state.events
+  );
+  const oid = localStorage.getItem("oid");
 
   const [data, setData] = useState(files);
   const [cursor, setCursor] = useState(false);
@@ -40,6 +44,8 @@ export const PanelVistaArbol = () => {
     dispatch(gestionSetActiveView([node]));
     dispatch(gestionAddHistory(node.name));
     dispatch(addPosition(node.name));
+    dispatch(startLoadFiles(oid, node.url, "1", "0"));
+    console.log(filesView);
   };
 
   function handleClickCopiar(e, datos) {

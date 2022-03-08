@@ -4,7 +4,6 @@ export const findObject = (obj = {}, key, value, copiaObjeto = {}) => {
       return;
     }
     if (obj[key] === value) {
-      console.log(obj);
       if (obj["children"]) {
         obj["children"].push(copiaObjeto);
       } else {

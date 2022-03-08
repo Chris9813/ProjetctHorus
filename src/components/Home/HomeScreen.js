@@ -6,6 +6,7 @@ import { useMsal } from "@azure/msal-react";
 
 import { NavBar } from "../ui/NavBar";
 import { startAuth } from "../../helpers/startAuth";
+import { fetchConToken } from "../../helpers/fetch";
 
 export const HomeScreen = () => {
   const navigate = useNavigate();
