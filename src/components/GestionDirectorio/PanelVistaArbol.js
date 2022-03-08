@@ -23,7 +23,7 @@ import { findAllObject, findObject } from "../../helpers/findObject";
 
 export const PanelVistaArbol = () => {
   const dispatch = useDispatch();
-  const { files, activeFileCopy, filesView } = useSelector(
+  const { files, activeFileCopy, filesView, position } = useSelector(
     (state) => state.events
   );
   const oid = localStorage.getItem("oid");
@@ -31,6 +31,7 @@ export const PanelVistaArbol = () => {
   const [data, setData] = useState(files);
   const [cursor, setCursor] = useState(false);
   const [infoCursor, setInfoCursor] = useState("");
+  const [estado, setEstado] = useState(false);
 
   const onToggle = (node, toggled) => {
     setCursor(node);
@@ -40,13 +41,23 @@ export const PanelVistaArbol = () => {
     }
     setData(Object.assign({}, data));
     setCursor(node);
-    console.log(node.name);
-    dispatch(gestionSetActiveView([node]));
-    dispatch(gestionAddHistory(node.name));
-    dispatch(addPosition(node.name));
+   
+    dispatch(gestionSetActiveView(node.children));
+    console.log(node.name)
+    let resultado = position.find((pos) => node.name == pos);
+    if(resultado){
+      console.log("data ya existe")
+    }
+    else{
+      dispatch(addPosition(node.name));
+      dispatch(gestionAddHistory(node.name));
+    }
+    
     dispatch(startLoadFiles(oid, node.url, "1", "0"));
-    console.log(filesView);
+    console.log(node.children);
   };
+
+
 
   function handleClickCopiar(e, datos) {
     const nameItem = datos.target.innerHTML;
@@ -104,6 +115,7 @@ export const PanelVistaArbol = () => {
       </ContextMenuTrigger>
       {infoCursor !== "Container 1" && infoCursor !== "Container 2" && (
         <ContextMenu id="same_unique_identifier">
+          
           <MenuItem data={{ foo: "bar" }} onClick={handleClickCopiar}>
             Copiar
           </MenuItem>

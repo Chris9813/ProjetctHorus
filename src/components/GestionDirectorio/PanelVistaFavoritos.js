@@ -7,21 +7,23 @@ import { eliminarFav } from "../../actions/events";
 import { stylesTreeBeard } from "./stylesTreeBeard";
 import { directory } from "../../helpers/directory";
 import { findAllObject } from "../../helpers/findObject";
+import {
 
+  gestionSetActiveView,
+
+} from "../../actions/events";
 const PanelVistaFavoritos = () => {
   const dispatch = useDispatch();
   const { Favoritos } = useSelector((state) => state.events);
 
   const [data, setData] = useState(directory);
   const [cursor, setCursor] = useState(false);
-
+  console.log(Favoritos)
   const onToggle = (node, toggled) => {
     setCursor(node);
 
-    node.active = true;
-    if (node.children) {
-      node.toggled = toggled;
-    }
+    
+    dispatch(gestionSetActiveView(node.children));
     setData(Object.assign({}, data));
     setCursor(node);
   };
@@ -38,7 +40,7 @@ const PanelVistaFavoritos = () => {
     <div>
       <ContextMenuTrigger id="same_unique_identifier_4">
         <Treebeard
-          className="toggle"
+          
           data={Favoritos}
           onToggle={onToggle}
           style={stylesTreeBeard}

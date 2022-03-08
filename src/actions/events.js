@@ -141,6 +141,7 @@ export const selectObjectProps = (event) => ({
 });
 
 export const seleccionarFav = (event) => ({
+ 
   type: types.gestionSelectFavorito,
   payload: event,
 });
@@ -166,5 +167,10 @@ export const returnHistory = () => ({
 
 export const addPosition = (event) => ({
   type: types.gestionAddPosition,
+  payload: event,
+});
+
+export const deleteHistory = (event) => ({
+  type: types.gestionDelatedHistory,
   payload: event,
 });

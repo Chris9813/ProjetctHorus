@@ -58,3 +58,29 @@ export const deleteObject = (obj = {}, key, value) => {
   };
   recursiveSearch(obj);
 };
+
+export const deleteObjectD = (obj = {}, key, value) => {
+  const recursiveSearch = (obj = {}) => {
+    if (!obj || typeof obj !== "object") {
+      return;
+    }
+
+    if (obj[key] === value) {
+      if (obj["children"]) {
+        delete obj.name;
+        delete obj.children;
+        delete obj.active;
+        delete obj.toggled;
+      } else {
+        delete obj[+1].name;
+        delete obj[+1].active;
+        delete obj[+1].toggled;
+      }
+    }
+
+    Object.keys(obj).forEach(function (k) {
+      recursiveSearch(obj[k]);
+    });
+  };
+  recursiveSearch(obj);
+};

@@ -1,4 +1,4 @@
-import { findObject, deleteObject } from "../helpers/findObject";
+import { findObject, deleteObject,deleteObjectD } from "../helpers/findObject";
 import { types } from "../types/types";
 
 const modelData = {
@@ -103,6 +103,7 @@ export const eventsReducer = (state = initialState, action) => {
       };
 
     case types.gestionSelectFavorito:
+       console.log(action.payload)
       return {
         ...state,
         Favoritos: [...state.Favoritos, action.payload],
@@ -129,6 +130,15 @@ export const eventsReducer = (state = initialState, action) => {
         history: [...state.history, action.payload],
         position: [...state.position, action.payload],
       };
+
+      case types.gestionDelatedHistory:
+      deleteObjectD(state.history, "name", action.payload);
+      console.log(state.files);
+      return {
+        ...state,
+      };
+
+
     case types.gestionDeletePosition:
       state.position.pop();
       return {

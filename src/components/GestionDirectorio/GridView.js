@@ -13,6 +13,7 @@ import {
   openModalPropiedades,
   startLoadFiles,
   eliminarFav,
+  deleteHistory,
 } from "../../actions/events";
 import { findAllObject } from "../../helpers/findObject";
 import { ModalPropiedades } from "./ModalPropiedades";
@@ -24,7 +25,9 @@ export const GridView = () => {
     (state) => state.events
   );
   const [estado, setEstado] = useState(false);
+  const [infoCursor, setInfoCursor] = useState("");
 
+   console.log(filesView)
   const data = files;
 
   const columns = [
@@ -35,11 +38,7 @@ export const GridView = () => {
 
       align: "end",
     },
-    {
-      title: "Tiempo de modificado",
-      field: "fechaMod",
-      align: "center",
-    },
+    
     { title: "Tipo", field: "extension", align: "center" },
     {
       title: "Tamaño",
@@ -47,7 +46,7 @@ export const GridView = () => {
       align: "center",
     },
     {
-      title: "Propietario",
+      title: "Modificado",
       field: "modifPor",
     },
   ];
@@ -59,8 +58,10 @@ export const GridView = () => {
     dispatch(startLoadFiles(oid, rows.url, "0", "0"));
   };
 
+ 
   const handlereturn = (e, d) => {
     const nombreAnteriorItem = position[position.length - 2];
+    console.log(nombreAnteriorItem)
     let obj = [];
     findAllObject(data, "name", nombreAnteriorItem, obj);
     console.log(position.length === 2);
@@ -68,9 +69,10 @@ export const GridView = () => {
       dispatch(returnHistory());
       return dispatch(gestionSetActiveView(data));
     }
-
+   
     dispatch(returnHistory());
     dispatch(gestionSetActiveView(obj[0].children));
+    
   };
 
   const handleNext = () => {
@@ -126,8 +128,20 @@ export const GridView = () => {
     dispatch(openModalPropiedades());
   };
 
+  const handleUp = (e, row) => {
+   /* if (e.target.innerHTML.includes( "nav")) return;
+    setInfoCursor(e.target.innerHTML);
+    console.log(e.target.innerHTML)
+    let resultado = Favoritos.find((fav) => fav.name === e.target.innerHTML);
+    console.log(row)
+    resultado ? setEstado(true) : console.log("ya esta agregado a fav")*/
+  };
+  
+
   return (
     <>
+     <div onMouseOver={(e) => handleUp(e)}>
+    
       <ContextMenuTrigger id="same_unique_identifier2">
         <MaterialTable
           title=""
@@ -136,8 +150,11 @@ export const GridView = () => {
           //parentChildData={(row, rows) => rows.find((a) => a.id === row.parentId)}
           options={{
             search: false,
-            selection: false,
+            selection: true,
             tableLayout: "auto",
+            actions:true,
+            filtering:false, paging:true, pageSizeOptions:[10,20,50,100], pageSize: 10,
+            
           }}
           actions={[
             (rowData) => (
@@ -171,8 +188,34 @@ export const GridView = () => {
           ]}
           onRowClick={(evt, selectedRow) => handleClick(selectedRow)}
           components={{
+            
+
             Toolbar: (props) => (
               <div>
+                <div className="container miga" >
+                  <div className="row align-items-center justify-content-center center-block minh-0">
+                    <div className="col">
+                     <ol className="breadcrumb text-center ">
+                     <li className="breadcrumb-item active">
+                          <p class="active" onClick={(e, d) => handlereturn(e, d)}>
+                          <i class="fa-solid fa-folder"></i>
+                          </p> 
+                       </li>  
+                      {
+                        position.map(pos=> 
+                        <li className="breadcrumb-item active ">
+                           <a className="active text-white" onClick={(e, d) => handlereturn(e, d)}>
+                           {pos}
+                           </a> 
+                        </li>
+                          )
+                      }    
+                      </ol>
+                    </div>
+                  </div>
+                  
+                </div>
+
                 <MTableToolbar {...props} />
                 <div className="icon-group-gridview">
                   <i
@@ -193,7 +236,19 @@ export const GridView = () => {
           }}
         />
       </ContextMenuTrigger>
+      
       <ContextMenu id="same_unique_identifier2">
+        {
+          estado ? (
+            <MenuItem data={{ foo: "bar" }} onClick={handleFav}>
+            eliminar de favoritos
+          </MenuItem>
+          ):(
+          <MenuItem data={{ foo: "bar" }} onClick={handleFav}>
+            Añadir a favoritos
+          </MenuItem>
+          )
+        }
         <MenuItem data={{ foo: "cursor" }}>Copiar</MenuItem>
 
         <MenuItem className="pegar" data={{ foo: "bar" }}>
@@ -202,9 +257,7 @@ export const GridView = () => {
 
         <MenuItem data={{ foo: "bar" }}>Crear carpeta</MenuItem>
 
-        <MenuItem data={{ foo: "bar" }} onClick={handleFav}>
-          Añadir a favoritos
-        </MenuItem>
+       
 
         <MenuItem data={{ foo: "bar" }} onClick={handleClickPropiedades}>
           Propiedades
@@ -213,6 +266,7 @@ export const GridView = () => {
         <MenuItem data={{ foo: "bar" }}>Eliminar</MenuItem>
       </ContextMenu>
       <ModalPropiedades />
+      </div>
     </>
   );
 };

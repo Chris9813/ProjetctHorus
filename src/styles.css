@@ -278,6 +278,20 @@ nav.react-contextmenu {
 }
 
 /*NavBar GridView */
+.breadcrumb-item{
+  margin-top: 5px;
+ 
+}
+.miga{
+  background-color:rgb(62, 63, 65);
+  border-radius: #1e2125;
+  height: 40px;
+  margin-top: 2%;
+}
+.active{
+  pointer-events: auto;
+  cursor: pointer;
+}
 .gestion-screen {
   background-color: #efeeed;
 }

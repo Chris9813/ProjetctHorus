@@ -15,8 +15,10 @@ export const types = {
   gestionSelectFavorito: "[gestion] add favorito",
   gestionDeleteFvorito: "[gestion] delete favorito",
   gestionAddHistory: "[gestion] add history item",
+  gestionDelatedHistory:"[gestion] delete history item",
   gestionAddPosition: "[gestion] add item position",
   gestionDeletePosition: "[gestion] delete item position",
+
 
   gestionStartAddNew: "[gestion] Start add new",
   gestionAddNew: "[gestion] Add new",
